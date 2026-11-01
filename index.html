@@ -91,12 +91,12 @@
             </div>
             <div>
                 <span class="text-xl font-black tracking-tight">PROJOIN <span class="text-gradient">REWARDS</span></span>
-                <p class="text-[11px] opacity-70">Anti-Cheat Short Link System</p>
+                <p class="text-[11px] opacity-70">Anti-Cheat Claim Link System</p>
             </div>
         </div>
         <div>
             <span class="px-3 py-1 rounded-full text-xs font-extrabold bg-amber-500/10 text-amber-400 border border-amber-400/30 font-mono">
-                <i class="fa-solid fa-gift mr-1"></i> Reward: 2.00 Coins
+                <i class="fa-solid fa-gift mr-1"></i> Reward: Unlimited Coins
             </span>
         </div>
     </header>
@@ -110,7 +110,7 @@
                 <div class="w-16 h-16 rounded-2xl bg-neonPink/20 text-neonPink flex items-center justify-center text-3xl mx-auto border border-neonPink/30">
                     <i class="fa-solid fa-shield-halved animate-pulse"></i>
                 </div>
-                <h2 class="text-2xl font-black">Step 1: Short Link Pass Karein</h2>
+                <h2 class="text-2xl font-black">Step 1: Claim Link Pass Karein</h2>
                 <p class="text-xs text-gray-400 leading-relaxed">
                     Coins claim karne ke liye pehle niche diye gaye short link par click karein aur link complete karke wapas aayein.
                 </p>
@@ -119,7 +119,7 @@
             <div class="space-y-3">
                 <a href="https://srnky.com/yNHJ" target="_blank" onclick="handleLinkVisited()" class="w-full py-4 rounded-xl bg-gradient-pink text-white font-black hover:opacity-95 transition shadow-lg shadow-neonPink/40 flex items-center justify-center space-x-2 text-sm">
                     <i class="fa-solid fa-bolt"></i>
-                    <span>Short Link Open Karein (srnky.com/yNHJ)</span>
+                    <span>Claim Link</span>
                 </a>
             </div>
         </div>
@@ -130,9 +130,9 @@
                 <div class="w-16 h-16 rounded-2xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-3xl mx-auto border border-emerald-500/30 shadow-inner">
                     <i class="fa-solid fa-circle-check"></i>
                 </div>
-                <h2 class="text-2xl font-black text-emerald-400">Short Link Verified!</h2>
+                <h2 class="text-2xl font-black text-emerald-400">Claim Link Verified!</h2>
                 <p class="text-xs text-gray-400 leading-relaxed">
-                    Aap short link open karke aa chuke hain[span_0](start_span)[span_0](end_span). Ab apni **Referral ID** enter karein aur instant 2 coins hasil karein[span_1](start_span)[span_1](end_span).
+                    Aap Claim link open karke aa chuke hain. Ab apni **Referral ID** enter karein aur instant 5 coins hasil karein.
                 </p>
             </div>
 
@@ -147,7 +147,7 @@
 
                 <button type="submit" id="claimSubmitBtn" class="w-full py-4 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 text-black font-black hover:opacity-95 transition shadow-lg shadow-amber-500/30 flex items-center justify-center space-x-2 text-sm">
                     <i class="fa-solid fa-coins"></i>
-                    <span>Claim 2 Coins Now</span>
+                    <span>Claim 5 Coins Now</span>
                 </button>
             </form>
         </div>
@@ -165,8 +165,8 @@
             </div>
 
             <div>
-                <h3 class="text-2xl font-black text-amber-400">2.00 Coins Successfully Added!</h3>
-                <p class="text-xs text-gray-300 mt-1">Aapke account mein coins transfer ho chuke hain[span_2](start_span)[span_2](end_span).</p>
+                <h3 class="text-2xl font-black text-amber-400">5.00 Coins Successfully Added!</h3>
+                <p class="text-xs text-gray-300 mt-1">Aapke account mein coins transfer ho chuke hain.</p>
             </div>
 
             <div class="bg-black/40 rounded-2xl p-4 border border-cardBorder text-left space-y-2 font-mono text-xs">
@@ -187,7 +187,7 @@
             <div class="space-y-2">
                 <button onclick="requestMoreCoins()" class="w-full py-3.5 rounded-xl bg-gradient-pink text-white font-extrabold hover:opacity-95 transition shadow-lg shadow-neonPink/30 flex items-center justify-center space-x-2">
                     <i class="fa-solid fa-rotate-right"></i>
-                    <span>Mazeed Coins Chahiye? Phir Short Link Kholen</span>
+                    <span>Zada Coins Chahiye? Phir Claim Link Kholen</span>
                 </button>
             </div>
         </div>
@@ -249,7 +249,7 @@
                 if (!usersSnap.exists()) {
                     showToast("Database mein users nahi mile.", "error");
                     claimBtn.disabled = false;
-                    claimBtn.innerHTML = `<i class="fa-solid fa-coins"></i> <span>Claim 2 Coins Now</span>`;
+                    claimBtn.innerHTML = `<i class="fa-solid fa-coins"></i> <span>Claim 5 Coins Now</span>`;
                     return;
                 }
 
@@ -268,18 +268,19 @@
                 if (!foundUid || !foundUser) {
                     showToast(`Referral ID (${refIdInput}) nahi mili. Check karke dobara dalein!`, "error");
                     claimBtn.disabled = false;
-                    claimBtn.innerHTML = `<i class="fa-solid fa-coins"></i> <span>Claim 2 Coins Now</span>`;
+                    claimBtn.innerHTML = `<i class="fa-solid fa-coins"></i> <span>Claim 5 Coins Now</span>`;
                     return;
                 }
 
                 if (foundUser.isBanned) {
                     showToast("Yeh account banned hai!", "error");
                     claimBtn.disabled = false;
-                    claimBtn.innerHTML = `<i class="fa-solid fa-coins"></i> <span>Claim 2 Coins Now</span>`;
+                    claimBtn.innerHTML = `<i class="fa-solid fa-coins"></i> <span>Claim 5 Coins Now</span>`;
                     return;
                 }
 
-                const rewardCoins = 2.00;
+                // CHANGED: Value updated to 5.00 Coins
+                const rewardCoins = 5.00;
                 const currentBalance = foundUser.balance || 0;
                 const newBalance = currentBalance + rewardCoins;
 
@@ -288,7 +289,7 @@
 
                 await push(ref(window.db, `transactions/${foundUid}`), {
                     type: 'ShrinkEarn Reward',
-                    details: 'Claimed 2 free coins after passing srnky.com/yNHJ',
+                    details: 'Claimed 5 free coins after passing srnky.com/yNHJ',
                     amount: rewardCoins,
                     timestamp: Date.now()
                 });
@@ -306,7 +307,7 @@
                 console.error(err);
                 showToast("Masla aya hai, dobara koshish karein.", "error");
                 claimBtn.disabled = false;
-                claimBtn.innerHTML = `<i class="fa-solid fa-coins"></i> <span>Claim 2 Coins Now</span>`;
+                claimBtn.innerHTML = `<i class="fa-solid fa-coins"></i> <span>Claim 5 Coins Now</span>`;
             }
         }
 

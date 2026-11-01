@@ -50,9 +50,6 @@
         .neon-glow {
             box-shadow: 0 0 25px rgba(255, 42, 133, 0.25);
         }
-        .neon-glow-cyan {
-            box-shadow: 0 0 25px rgba(0, 242, 254, 0.25);
-        }
     </style>
 </head>
 <body class="min-h-screen flex flex-col justify-between selection:bg-neonPink selection:text-white">
@@ -88,12 +85,12 @@
             </div>
             <div>
                 <span class="text-xl font-black tracking-tight">PROJOIN <span class="text-gradient">REWARDS</span></span>
-                <p class="text-[11px] opacity-70">Anti-Cheat Gplinks System</p>
+                <p class="text-[11px] opacity-70">Rewards System Status</p>
             </div>
         </div>
         <div>
-            <span class="px-3 py-1 rounded-full text-xs font-extrabold bg-amber-500/10 text-amber-400 border border-amber-400/30 font-mono">
-                <i class="fa-solid fa-gift mr-1"></i> Reward: Unlimited Coins (Max 10 Claims/Day)
+            <span class="px-3 py-1 rounded-full text-xs font-extrabold bg-red-500/10 text-red-400 border border-red-400/30 font-mono">
+                <i class="fa-solid fa-ban mr-1"></i> System Disabled
             </span>
         </div>
     </header>
@@ -101,52 +98,21 @@
     <!-- Main Container -->
     <main class="flex-1 max-w-xl w-full mx-auto p-4 lg:p-6 flex flex-col justify-center">
         
-        <!-- STEP 1: Short Link Open Card -->
-        <div id="stepGenerateCard" class="glass-card rounded-3xl p-6 lg:p-8 neon-glow border-cardBorder space-y-6">
-            <div class="text-center space-y-2">
-                <div class="w-16 h-16 rounded-2xl bg-neonPink/20 text-neonPink flex items-center justify-center text-3xl mx-auto border border-neonPink/30">
-                    <i class="fa-solid fa-shield-halved animate-pulse"></i>
-                </div>
-                <h2 class="text-2xl font-black">Step 1: Gplink Pass Karein</h2>
+        <!-- Disabled Notice Card -->
+        <div class="glass-card rounded-3xl p-6 lg:p-8 neon-glow border-cardBorder text-center space-y-6">
+            <div class="w-16 h-16 rounded-2xl bg-red-500/20 text-red-500 flex items-center justify-center text-3xl mx-auto border border-red-500/30">
+                <i class="fa-solid fa-triangle-exclamation animate-pulse"></i>
+            </div>
+            <div class="space-y-2">
+                <h2 class="text-2xl font-black text-white">Claim System Temporarily Closed</h2>
                 <p class="text-xs text-gray-400 leading-relaxed">
-                    Coins claim karne ke liye pehle niche diye gaye Gplink par click karein aur link complete karein (Kam az kam 2 minute lagayein).
+                    Filhal rewards claim karne ka system disable kar diya gaya hai. Mazeed maloomat ke liye admin se rabta karein.
                 </p>
             </div>
 
-            <div class="space-y-3">
-                <a href="https://gplinks.co/jNylw" target="_blank" onclick="handleLinkVisited()" class="w-full py-4 rounded-xl bg-gradient-pink text-white font-black hover:opacity-95 transition shadow-lg shadow-neonPink/40 flex items-center justify-center space-x-2 text-sm">
-                    <i class="fa-solid fa-bolt"></i>
-                    <span>Open Gplink</span>
-                </a>
+            <div class="p-4 rounded-2xl bg-black/40 border border-cardBorder text-xs text-gray-400 font-mono">
+                Status: <span class="text-red-400 font-bold">Offline / Disabled</span>
             </div>
-        </div>
-
-        <!-- STEP 2: Claim Coins Card -->
-        <div id="stepClaimCard" class="glass-card rounded-3xl p-6 lg:p-8 neon-glow-cyan border-cyan-500/30 space-y-6 hidden">
-            <div class="text-center space-y-2">
-                <div class="w-16 h-16 rounded-2xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-3xl mx-auto border border-emerald-500/30 shadow-inner">
-                    <i class="fa-solid fa-circle-check"></i>
-                </div>
-                <h2 class="text-2xl font-black text-emerald-400">Gplink Verified!</h2>
-                <p class="text-xs text-gray-400 leading-relaxed">
-                    Aap Gplink open karke poora waqt guzar kar aa chuke hain. Ab apni **Referral ID** enter karein aur coins hasil karein.
-                </p>
-            </div>
-
-            <form onsubmit="handleClaimCoins(event)" class="space-y-4">
-                <div>
-                    <label class="block text-xs font-semibold uppercase tracking-wider mb-2 opacity-80 text-cyan-300">Apni Referral ID Enter Karein</label>
-                    <div class="flex items-center bg-black/40 border border-cyan-500/40 rounded-xl px-4 py-3 focus-within:border-cyan-400 transition">
-                        <span class="text-cyan-400 font-mono font-bold mr-1">PJ-</span>
-                        <input type="number" pattern="[0-9]*" id="userRefIdNum" required placeholder="1001" class="w-full bg-transparent text-cyan-300 font-mono font-bold placeholder-gray-600 focus:outline-none">
-                    </div>
-                </div>
-
-                <button type="submit" id="claimSubmitBtn" class="w-full py-4 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 text-black font-black hover:opacity-95 transition shadow-lg shadow-amber-500/30 flex items-center justify-center space-x-2 text-sm">
-                    <i class="fa-solid fa-coins"></i>
-                    <span>Claim Coins Now</span>
-                </button>
-            </form>
         </div>
 
     </main>
@@ -154,224 +120,16 @@
     <!-- Custom Notification Toast -->
     <div id="toastContainer" class="fixed bottom-5 right-5 z-50 flex flex-col space-y-2 pointer-events-none"></div>
 
-    <!-- Coins Awarded Modal -->
-    <div id="successModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md hidden">
-        <div class="glass-card rounded-3xl p-6 lg:p-8 max-w-md w-full mx-4 border-amber-400/50 text-center space-y-5 shadow-2xl shadow-amber-500/20">
-            <div class="w-16 h-16 rounded-2xl bg-amber-500/20 text-amber-400 flex items-center justify-center text-3xl mx-auto border border-amber-400/30">
-                <i class="fa-solid fa-gift animate-bounce"></i>
-            </div>
-
-            <div>
-                <h3 id="modalTitle" class="text-2xl font-black text-amber-400">5.00 Coins Successfully Added!</h3>
-                <p id="modalSubText" class="text-xs text-gray-300 mt-1">Aapke account mein coins transfer ho chuke hain.</p>
-            </div>
-
-            <div class="bg-black/40 rounded-2xl p-4 border border-cardBorder text-left space-y-2 font-mono text-xs">
-                <div class="flex justify-between border-b border-cardBorder pb-2">
-                    <span class="text-gray-400">User Name:</span>
-                    <span id="modalUserName" class="font-bold text-white"></span>
-                </div>
-                <div class="flex justify-between border-b border-cardBorder pb-2">
-                    <span class="text-gray-400">Referral ID:</span>
-                    <span id="modalUserRef" class="text-neonPink font-bold"></span>
-                </div>
-                <div class="flex justify-between pt-1">
-                    <span class="text-gray-400 font-bold">New Balance:</span>
-                    <span id="modalNewBalance" class="text-emerald-400 font-black text-sm"></span>
-                </div>
-            </div>
-
-            <div class="space-y-2">
-                <button onclick="requestMoreCoins()" class="w-full py-3.5 rounded-xl bg-gradient-pink text-white font-extrabold hover:opacity-95 transition shadow-lg shadow-neonPink/30 flex items-center justify-center space-x-2">
-                    <i class="fa-solid fa-rotate-right"></i>
-                    <span>Zada Coins Chahiye? Phir Gplink Kholen</span>
-                </button>
-            </div>
-        </div>
-    </div>
-
     <!-- Footer -->
     <footer class="py-4 text-center text-xs opacity-50 border-t border-cardBorder">
-        © 2026 ProJoin Rewards Hub. Anti-Cheat Protected.
+        © 2026 ProJoin Rewards Hub. All Rights Reserved.
     </footer>
 
     <!-- Logic Script -->
     <script>
-        const GPLINKS_API_TOKEN = "4400c0277bc4712a16025d8356fcd2bf7bbacfb2";
-
         window.addEventListener('DOMContentLoaded', () => {
-            checkLinkVerificationStatus();
-
-            // Jab user wapas tab par aaye (visibility change ya window focus)
-            document.addEventListener('visibilitychange', () => {
-                if (!document.hidden) {
-                    checkLinkVerificationStatus();
-                }
-            });
-            window.addEventListener('focus', () => {
-                checkLinkVerificationStatus();
-            });
+            showToast("Rewards Claim System is currently disabled.", "error");
         });
-
-        function handleLinkVisited() {
-            // Click karte waqt exact time save kar lo
-            const clickTime = Date.now();
-            localStorage.setItem('pj_click_time', clickTime);
-            localStorage.setItem('pj_link_clicked', 'true');
-            showToast("Gplink open ho gaya hai. 2 minute wahan guzar kar wapas aayein!", "success");
-        }
-
-        function checkLinkVerificationStatus() {
-            const isClicked = localStorage.getItem('pj_link_clicked');
-            const clickTime = localStorage.getItem('pj_click_time');
-
-            if (isClicked === 'true' && clickTime) {
-                const currentTime = Date.now();
-                const timeElapsed = (currentTime - parseInt(clickTime)) / 1000; // Seconds mein conversion
-
-                // 2 Minute = 120 Seconds. Agar 120 seconds se pehle wapas aaya toh error.
-                if (timeElapsed < 120) {
-                    showToast("Aapne 2 minute poore nahi kiye! Link complete karke wapas aayein.", "error");
-                    localStorage.removeItem('pj_link_clicked');
-                    localStorage.removeItem('pj_click_time');
-                    document.getElementById('stepGenerateCard').classList.remove('hidden');
-                    document.getElementById('stepClaimCard').classList.add('hidden');
-                } else {
-                    // Agar 120 seconds ya zyada guzar chuke hain, tabhi step 2 khulega
-                    localStorage.setItem('pj_visited_shortlink', 'true');
-                    document.getElementById('stepGenerateCard').classList.add('hidden');
-                    document.getElementById('stepClaimCard').classList.remove('hidden');
-                }
-            }
-        }
-
-        async function handleClaimCoins(event) {
-            event.preventDefault();
-
-            if (localStorage.getItem('pj_visited_shortlink') !== 'true') {
-                showToast("Pehle Gplink mukammal open karein!", "error");
-                return;
-            }
-
-            const numInput = document.getElementById('userRefIdNum').value.trim();
-            if (!numInput) {
-                showToast("Meharbani karke Referral ID enter karein.", "error");
-                return;
-            }
-
-            const refIdInput = 'PJ-' + numInput;
-            const claimBtn = document.getElementById('claimSubmitBtn');
-            claimBtn.disabled = true;
-            claimBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> <span>Adding Coins...</span>`;
-
-            const { ref, get, child, update, push } = window.firebaseRefs;
-            const dbRef = ref(window.db);
-
-            try {
-                const usersSnap = await get(child(dbRef, 'users'));
-
-                if (!usersSnap.exists()) {
-                    showToast("Database mein users nahi mile.", "error");
-                    claimBtn.disabled = false;
-                    claimBtn.innerHTML = `<i class="fa-solid fa-coins"></i> <span>Claim Coins Now</span>`;
-                    return;
-                }
-
-                const users = usersSnap.val();
-                let foundUid = null;
-                let foundUser = null;
-
-                for (let uid in users) {
-                    if (users[uid].referralId && users[uid].referralId.toUpperCase() === refIdInput.toUpperCase()) {
-                        foundUid = uid;
-                        foundUser = users[uid];
-                        break;
-                    }
-                }
-
-                if (!foundUid || !foundUser) {
-                    showToast(`Referral ID (${refIdInput}) nahi mili. Check karke dobara dalein!`, "error");
-                    claimBtn.disabled = false;
-                    claimBtn.innerHTML = `<i class="fa-solid fa-coins"></i> <span>Claim Coins Now</span>`;
-                    return;
-                }
-
-                if (foundUser.isBanned) {
-                    showToast("Yeh account banned hai!", "error");
-                    claimBtn.disabled = false;
-                    claimBtn.innerHTML = `<i class="fa-solid fa-coins"></i> <span>Claim Coins Now</span>`;
-                    return;
-                }
-
-                const todayStr = new Date().toISOString().split('T')[0];
-                let dailyClaimsCount = foundUser.dailyClaimsCount || 0;
-                let lastClaimDate = foundUser.lastClaimDate || '';
-
-                if (lastClaimDate !== todayStr) {
-                    dailyClaimsCount = 0;
-                }
-
-                if (dailyClaimsCount >= 10) {
-                    showToast("Aapki aaj ki 10 claims ki limit poori ho chuki hai. Kal koshish karein!", "error");
-                    claimBtn.disabled = false;
-                    claimBtn.innerHTML = `<i class="fa-solid fa-coins"></i> <span>Claim Coins Now</span>`;
-                    return;
-                }
-
-                const currentBalance = foundUser.balance || 0;
-
-                let rewardCoins = 5.00;
-                let isUltraSlow = false;
-
-                if (currentBalance >= 9000) {
-                    rewardCoins = 0.005;
-                    isUltraSlow = true;
-                }
-
-                const newBalance = currentBalance + rewardCoins;
-                const newDailyCount = dailyClaimsCount + 1;
-
-                await update(ref(window.db, `users/${foundUid}`), { 
-                    balance: newBalance,
-                    dailyClaimsCount: newDailyCount,
-                    lastClaimDate: todayStr
-                });
-
-                await push(ref(window.db, `transactions/${foundUid}`), {
-                    type: 'Gplinks Reward',
-                    details: isUltraSlow ? `Claimed 0.005 ultra slow coins (Claim #${newDailyCount} today)` : `Claimed 5 free coins via Gplinks (Claim #${newDailyCount} today)`,
-                    amount: rewardCoins,
-                    timestamp: Date.now()
-                });
-
-                // Clear temporary tokens so user must click link again for next claim
-                localStorage.removeItem('pj_visited_shortlink');
-                localStorage.removeItem('pj_link_clicked');
-                localStorage.removeItem('pj_click_time');
-
-                document.getElementById('modalUserName').innerText = foundUser.name || 'N/A';
-                document.getElementById('modalUserRef').innerText = foundUser.referralId || refIdInput;
-                document.getElementById('modalNewBalance').innerText = `${newBalance.toFixed(3)} Coins`;
-
-                document.getElementById('modalTitle').innerText = "5.00 Coins Successfully Added!";
-                document.getElementById('modalSubText').innerText = `Aapke account mein coins transfer ho chuke hain. (Aaj ke claims: ${newDailyCount}/10)`;
-
-                document.getElementById('successModal').classList.remove('hidden');
-
-            } catch (err) {
-                console.error(err);
-                showToast("Masla aya hai, dobara koshish karein.", "error");
-                claimBtn.disabled = false;
-                claimBtn.innerHTML = `<i class="fa-solid fa-coins"></i> <span>Claim Coins Now</span>`;
-            }
-        }
-
-        function requestMoreCoins() {
-            localStorage.removeItem('pj_visited_shortlink');
-            localStorage.removeItem('pj_link_clicked');
-            localStorage.removeItem('pj_click_time');
-            window.location.href = "https://gplinks.co/jNylw";
-        }
 
         function showToast(message, type = 'success') {
             const container = document.getElementById('toastContainer');

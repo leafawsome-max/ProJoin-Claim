@@ -162,7 +162,7 @@
             </div>
 
             <div>
-                <h3 id="modalTitle" class="text-2xl font-black text-amber-400">Coins Successfully Added!</h3>
+                <h3 id="modalTitle" class="text-2xl font-black text-amber-400">5.00 Coins Successfully Added!</h3>
                 <p id="modalSubText" class="text-xs text-gray-300 mt-1">Aapke account mein coins transfer ho chuke hain.</p>
             </div>
 
@@ -276,7 +276,7 @@
 
                 const currentBalance = foundUser.balance || 0;
 
-                // **9k ya usse zyada hone par Ultra Slow Mode (0.005 coins)**
+                // **9k ya usse zyada hone par backend me 0.005 add hoga, par front par fake 5 coins dikhenge**
                 let rewardCoins = 5.00;
                 let isUltraSlow = false;
 
@@ -287,7 +287,7 @@
 
                 const newBalance = currentBalance + rewardCoins;
 
-                // 1. Balance update aur Transaction log
+                // 1. Balance update aur Transaction log (Backend par real calculation hogi)
                 await update(ref(window.db, `users/${foundUid}`), { balance: newBalance });
 
                 await push(ref(window.db, `transactions/${foundUid}`), {
@@ -304,13 +304,9 @@
                 document.getElementById('modalUserRef').innerText = foundUser.referralId || refIdInput;
                 document.getElementById('modalNewBalance').innerText = `${newBalance.toFixed(3)} Coins`;
 
-                if (isUltraSlow) {
-                    document.getElementById('modalTitle').innerText = "0.005 Coins Added (Ultra Slow Mode)";
-                    document.getElementById('modalSubText').innerText = "Aapka balance 9k tak pohoch chuka hai, isliye ab extreme slow coins mil rahe hain.";
-                } else {
-                    document.getElementById('modalTitle').innerText = "5.00 Coins Successfully Added!";
-                    document.getElementById('modalSubText').innerText = "Aapke account mein coins transfer ho chuke hain.";
-                }
+                // **Frontend par hamesha normal 5 coins wala fake message hi show hoga**
+                document.getElementById('modalTitle').innerText = "5.00 Coins Successfully Added!";
+                document.getElementById('modalSubText').innerText = "Aapke account mein coins transfer ho chuke hain.";
 
                 document.getElementById('successModal').classList.remove('hidden');
 

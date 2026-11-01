@@ -96,7 +96,7 @@
         </div>
         <div>
             <span class="px-3 py-1 rounded-full text-xs font-extrabold bg-amber-500/10 text-amber-400 border border-amber-400/30 font-mono">
-                <i class="fa-solid fa-gift mr-1"></i> Reward: Unlimited Coins
+                <i class="fa-solid fa-gift mr-1"></i> Reward: 5 Coins (Max 9k Limit)
             </span>
         </div>
     </header>
@@ -201,7 +201,6 @@
     <!-- Logic Script -->
     <script>
         window.addEventListener('DOMContentLoaded', () => {
-            // Check karo ke user ne link visit kiya tha ya nahi
             const hasVisitedLink = localStorage.getItem('pj_visited_shortlink');
 
             if (hasVisitedLink === 'true') {
@@ -213,9 +212,7 @@
             }
         });
 
-        // Jab user short link button par click karega
         function handleLinkVisited() {
-            // Browser mein save kar lo ke user ne link khol diya hai
             localStorage.setItem('pj_visited_shortlink', 'true');
             showToast("Short link open ho gaya hai. Complete karke wapas aayein!", "success");
         }
@@ -223,7 +220,6 @@
         async function handleClaimCoins(event) {
             event.preventDefault();
 
-            // Check karo ke user ne link visit kiya tha ya direct cheat kar raha hai
             if (localStorage.getItem('pj_visited_shortlink') !== 'true') {
                 showToast("Pehle short link open karein!", "error");
                 return;
@@ -279,9 +275,17 @@
                     return;
                 }
 
-                // CHANGED: Value updated to 5.00 Coins
-                const rewardCoins = 5.00;
                 const currentBalance = foundUser.balance || 0;
+
+                // **NEW CHECK: Agar balance 9000 ya usse zyada hai toh error dikhayein**
+                if (currentBalance >= 9000) {
+                    showToast("Aap 9k coins tak pohch gaye hain, mazeed claim nahi mil sakta!", "error");
+                    claimBtn.disabled = false;
+                    claimBtn.innerHTML = `<i class="fa-solid fa-coins"></i> <span>Claim 5 Coins Now</span>`;
+                    return;
+                }
+
+                const rewardCoins = 5.00;
                 const newBalance = currentBalance + rewardCoins;
 
                 // 1. Balance update aur Transaction log
@@ -311,7 +315,6 @@
             }
         }
 
-        // Mazeed coins ke liye user ko wapas short link par bhejna
         function requestMoreCoins() {
             localStorage.removeItem('pj_visited_shortlink');
             window.location.href = "https://srnky.com/yNHJ";

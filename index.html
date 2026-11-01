@@ -91,7 +91,7 @@
             </div>
             <div>
                 <span class="text-xl font-black tracking-tight">PROJOIN <span class="text-gradient">REWARDS</span></span>
-                <p class="text-[11px] opacity-70">ShrinkEarn Anti-Cheat Coin Claimer</p>
+                <p class="text-[11px] opacity-70">Anti-Cheat Short Link System</p>
             </div>
         </div>
         <div>
@@ -104,44 +104,35 @@
     <!-- Main Container -->
     <main class="flex-1 max-w-xl w-full mx-auto p-4 lg:p-6 flex flex-col justify-center">
         
-        <!-- STEP 1: Generate & Visit Shortened Link Card (Waqt se pehle hide/show logic) -->
+        <!-- STEP 1: Agar User Short Link pass karke nahi aaya -->
         <div id="stepGenerateCard" class="glass-card rounded-3xl p-6 lg:p-8 neon-glow border-cardBorder space-y-6">
             <div class="text-center space-y-2">
                 <div class="w-16 h-16 rounded-2xl bg-neonPink/20 text-neonPink flex items-center justify-center text-3xl mx-auto border border-neonPink/30">
                     <i class="fa-solid fa-shield-halved animate-pulse"></i>
                 </div>
-                <h2 class="text-2xl font-black">Step 1: Verify via Short Link</h2>
+                <h2 class="text-2xl font-black">Step 1: Short Link Pass Karein</h2>
                 <p class="text-xs text-gray-400 leading-relaxed">
-                    Cheat protection active hai! Coins claim karne ke liye pehle niche button par click karke ShrinkEarn link complete karein.
+                    Cheat protection active hai! Coins claim karne ke liye pehle niche diye gaye short link ko complete karke wapas aayein.
                 </p>
             </div>
 
-            <div id="linkContainer" class="hidden space-y-3">
-                <div class="p-3 bg-black/40 border border-cardBorder rounded-xl text-center">
-                    <p class="text-[11px] text-gray-400 mb-1">Aapka Secure Verification Link:</p>
-                    <input type="text" id="generatedShortUrl" readonly class="w-full bg-transparent text-center font-mono text-xs text-cyan-300 font-bold focus:outline-none truncate">
-                </div>
-                <a id="visitLinkBtn" href="#" target="_blank" onclick="handleLinkVisited()" class="w-full py-3.5 rounded-xl bg-gradient-cyan text-black font-black hover:opacity-90 transition shadow-lg shadow-cyan-500/30 flex items-center justify-center space-x-2 text-sm">
-                    <span>Short Link Open Karein</span>
-                    <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
+            <div class="space-y-3">
+                <a href="https://srnky.com/yNHJ" target="_blank" onclick="handleLinkVisited()" class="w-full py-4 rounded-xl bg-gradient-pink text-white font-black hover:opacity-95 transition shadow-lg shadow-neonPink/40 flex items-center justify-center space-x-2 text-sm">
+                    <i class="fa-solid fa-bolt"></i>
+                    <span>Short Link Open Karein (srnky.com/yNHJ)</span>
                 </a>
             </div>
-
-            <button id="generateBtn" onclick="generateShrinkEarnLink()" class="w-full py-4 rounded-xl bg-gradient-pink text-white font-black hover:opacity-95 transition shadow-lg shadow-neonPink/40 flex items-center justify-center space-x-2 text-sm">
-                <i class="fa-solid fa-bolt"></i>
-                <span>Get Secure Link</span>
-            </button>
         </div>
 
-        <!-- STEP 2: Claim Coins Card (Sirf tabhi dikhega jab user ShrinkEarn se verify hokar aayega) -->
+        <!-- STEP 2: Claim Coins Card (Sirf tabhi dikhega jab user short link pass karke aayega) -->
         <div id="stepClaimCard" class="glass-card rounded-3xl p-6 lg:p-8 neon-glow-cyan border-cyan-500/30 space-y-6 hidden">
             <div class="text-center space-y-2">
                 <div class="w-16 h-16 rounded-2xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-3xl mx-auto border border-emerald-500/30 shadow-inner">
                     <i class="fa-solid fa-circle-check"></i>
                 </div>
-                <h2 class="text-2xl font-black text-emerald-400">Verification Successful!</h2>
+                <h2 class="text-2xl font-black text-emerald-400">Short Link Verified Successfully!</h2>
                 <p class="text-xs text-gray-400 leading-relaxed">
-                    Aapne successfully short link pass kar liya hai. Ab apni **Referral ID** (e.g. 1001) enter karein aur 2 coins claim karein[span_5](start_span)[span_5](end_span).
+                    Aapne short link successfully pass kar liya hai[span_1](start_span)[span_1](end_span). Ab apni **Referral ID** enter karein aur instant 2 coins hasil karein[span_2](start_span)[span_2](end_span).
                 </p>
             </div>
 
@@ -166,7 +157,7 @@
     <!-- Custom Notification Toast -->
     <div id="toastContainer" class="fixed bottom-5 right-5 z-50 flex flex-col space-y-2 pointer-events-none"></div>
 
-    <!-- Coins Awarded Modal (Mazeed coins ke liye wapas short link par bhejne ka option) -->
+    <!-- Coins Awarded Modal -->
     <div id="successModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md hidden">
         <div class="glass-card rounded-3xl p-6 lg:p-8 max-w-md w-full mx-4 border-amber-400/50 text-center space-y-5 shadow-2xl shadow-amber-500/20">
             <div class="w-16 h-16 rounded-2xl bg-amber-500/20 text-amber-400 flex items-center justify-center text-3xl mx-auto border border-amber-400/30">
@@ -175,7 +166,7 @@
 
             <div>
                 <h3 class="text-2xl font-black text-amber-400">2.00 Coins Successfully Added!</h3>
-                <p class="text-xs text-gray-300 mt-1">Aapke account mein coins transfer ho chuke hain.</p>
+                <p class="text-xs text-gray-300 mt-1">Aapke account mein coins transfer ho chuke hain[span_3](start_span)[span_3](end_span).</p>
             </div>
 
             <div class="bg-black/40 rounded-2xl p-4 border border-cardBorder text-left space-y-2 font-mono text-xs">
@@ -204,67 +195,55 @@
 
     <!-- Footer -->
     <footer class="py-4 text-center text-xs opacity-50 border-t border-cardBorder">
-        © 2026 ProJoin Rewards Hub. Anti-Cheat Protection Enabled.
+        © 2026 ProJoin Rewards Hub. Anti-Cheat Protected.
     </footer>
 
     <!-- Logic Script -->
     <script>
-        const SHRINKEARN_API_KEY = "ae189d2eb97afe63f25e3422af577beeb659f6c3";
-        const SECRET_CHECK_TOKEN = "projoin_secure_token_9988";
+        const SECRET_PASS_TOKEN = "projoin_verified_link_7788";
 
         window.addEventListener('DOMContentLoaded', () => {
             const urlParams = new URLSearchParams(window.location.search);
-            const token = urlParams.get('token');
+            const token = urlParams.get('passed');
 
-            // Anti-Cheat Check: Sirf tabhi claim card dikhega jab valid token match hoga
-            if (token === SECRET_CHECK_TOKEN) {
+            // Agar user ne link par click karke token hasil kiya hai
+            if (token === SECRET_PASS_TOKEN) {
+                // Session mein save kar lo taake refresh karne par bar bar token gayab na ho
+                sessionStorage.setItem('pj_link_passed', 'true');
+                // URL saaf kar do taake clean URL rahe
+                window.history.replaceState({}, document.title, window.location.pathname);
+            }
+
+            // Check karo ke session mein pass status maujud hai ya nahi
+            if (sessionStorage.getItem('pj_link_passed') === 'true') {
                 document.getElementById('stepGenerateCard').classList.add('hidden');
                 document.getElementById('stepClaimCard').classList.remove('hidden');
-                showToast("Verification successful! Ab apni Referral ID enter karein.", "success");
+                showToast("Short link successfully verified!", "success");
             } else {
                 document.getElementById('stepGenerateCard').classList.remove('hidden');
                 document.getElementById('stepClaimCard').classList.add('hidden');
             }
         });
 
-        async function generateShrinkEarnLink() {
-            const generateBtn = document.getElementById('generateBtn');
-            generateBtn.disabled = true;
-            generateBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> <span>Generating Secure Link...</span>`;
-
-            // Destination URL jiske sath secret token hoga taake cheat na ho sake
-            const currentBaseUrl = window.location.origin + window.location.pathname;
-            const targetDestination = `${currentBaseUrl}?token=${SECRET_CHECK_TOKEN}`;
-
-            const apiEndpoint = `https://shrinkearn.com/api?api=${SHRINKEARN_API_KEY}&url=${encodeURIComponent(targetDestination)}`;
-
-            try {
-                const response = await fetch(apiEndpoint);
-                const data = await response.json();
-
-                if (data.status === 'success' && data.shortenedUrl) {
-                    document.getElementById('generatedShortUrl').value = data.shortenedUrl;
-                    document.getElementById('visitLinkBtn').href = data.shortenedUrl;
-                    
-                    document.getElementById('linkContainer').classList.remove('hidden');
-                    generateBtn.classList.add('hidden');
-                    showToast("Secure short link tayar hai!", "success");
-                } else {
-                    throw new Error(data.message || "API error");
-                }
-            } catch (err) {
-                console.error("API Error:", err);
-                const fallbackUrl = `https://shrinkearn.com/api?api=${SHRINKEARN_API_KEY}&url=${encodeURIComponent(targetDestination)}`;
-                window.location.href = fallbackUrl;
-            }
-        }
-
+        // Jab user short link button par click karega
         function handleLinkVisited() {
+            // User ko token ke sath redirect karne ke liye hum short link target set karte hain
+            // Ya user jab srnky.com/yNHJ complete karke is page par aayega toh hum usko token pass karenge.
+            // Behtar yeh hai ke aap ShrinkEarn par target link yeh set karein:
+            // https://leafawsome-max.github.io/ProJoin-Claim/?passed=projoin_verified_link_7788
+            
             showToast("Short link open ho gaya hai. Complete karke wapas aayein!", "success");
         }
 
         async function handleClaimCoins(event) {
             event.preventDefault();
+
+            // Double check anti-cheat: Agar session mein pass nahi hai toh block kar do
+            if (sessionStorage.getItem('pj_link_passed') !== 'true') {
+                showToast("Cheat detected! Pehle short link pass karein.", "error");
+                setTimeout(() => { window.location.reload(); }, 2000);
+                return;
+            }
 
             const numInput = document.getElementById('userRefIdNum').value.trim();
             if (!numInput) {
@@ -320,15 +299,18 @@
                 const currentBalance = foundUser.balance || 0;
                 const newBalance = currentBalance + rewardCoins;
 
-                // Balance Update & Transaction Log
+                // 1. Balance update aur Transaction log
                 await update(ref(window.db, `users/${foundUid}`), { balance: newBalance });
 
                 await push(ref(window.db, `transactions/${foundUid}`), {
-                    type: 'ShrinkEarn Anti-Cheat Reward',
-                    details: 'Claimed 2 free coins after completing verified short link',
+                    type: 'ShrinkEarn Reward',
+                    details: 'Claimed 2 free coins after passing srnky.com/yNHJ',
                     amount: rewardCoins,
                     timestamp: Date.now()
                 });
+
+                // 2. Security token/session ko clear kar do taake wohi user bar bar bina naye link ke claim na kar sake
+                sessionStorage.removeItem('pj_link_passed');
 
                 document.getElementById('modalUserName').innerText = foundUser.name || 'N/A';
                 document.getElementById('modalUserRef').innerText = foundUser.referralId || refIdInput;
@@ -339,14 +321,15 @@
             } catch (err) {
                 console.error(err);
                 showToast("Masla aya hai, dobara koshish karein.", "error");
-                claimBtn.disabled, claimBtn.disabled = false;
+                claimBtn.disabled = false;
                 claimBtn.innerHTML = `<i class="fa-solid fa-coins"></i> <span>Claim 2 Coins Now</span>`;
             }
         }
 
-        // Mazeed coins ke liye user ko wapas clean URL par bhej kar short link generate karwayega
+        // Mazeed coins ke liye user ko wapas short link par bhejna
         function requestMoreCoins() {
-            window.location.href = window.location.pathname;
+            sessionStorage.removeItem('pj_link_passed');
+            window.location.href = "https://srnky.com/yNHJ";
         }
 
         function showToast(message, type = 'success') {
@@ -354,7 +337,7 @@
             const toast = document.createElement('div');
             toast.className = `glass-card px-4 py-3 rounded-2xl shadow-2xl text-xs font-semibold flex items-center space-x-2 border ${type === 'success' ? 'border-emerald-500/40 text-emerald-400' : 'border-red-500/40 text-red-400'} pointer-events-auto transition transform translate-y-2 opacity-0`;
             toast.innerHTML = `<i class="fa-solid ${type === 'success' ? 'fa-circle-check' : 'fa-triangle-exclamation'}"></i><span>${message}</span>`;
-            container.appendChild(toast);
+            container.data ? '' : container.appendChild(toast);
             
             setTimeout(() => {
                 toast.classList.remove('translate-y-2', 'opacity-0');

@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="ur" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ProJoin - Secure ShrinkEarn Coin Rewards</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        darkBg: '#0a0a0c',
+                        cardBg: '#121218',
+                        cardBorder: '#272735',
+                        neonPink: '#ff2a85',
+                        neonPurple: '#b829ff',
+                        neonCyan: '#00f2fe'
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0a0a0c;
+            color: #f3f4f6;
+        }
+        .text-gradient {
+            background: linear-gradient(135deg, #ff2a85 0%, #b829ff 50%, #00f2fe 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .bg-gradient-pink {
+            background: linear-gradient(135deg, #ff2a85 0%, #b829ff 100%);
+        }
+        .bg-gradient-cyan {
+            background: linear-gradient(135deg, #00c6ff 0%, #0072ff 100%);
+        }
+        .glass-card {
+            background: rgba(18, 18, 24, 0.85);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 42, 133, 0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+        .neon-glow {
+            box-shadow: 0 0 25px rgba(255, 42, 133, 0.25);
+        }
+        .neon-glow-cyan {
+            box-shadow: 0 0 25px rgba(0, 242, 254, 0.25);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between selection:bg-neonPink selection:text-white">
+
+    <!-- Firebase SDK Setup -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
+        import { getDatabase, ref, get, child, update, push } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBAjO52-ZVb6jKurqJREtMo7PrRdmRf6is",
+            authDomain: "projoin-b2d3c.firebaseapp.com",
+            databaseURL: "https://projoin-b2d3c-default-rtdb.firebaseio.com",
+            projectId: "projoin-b2d3c",
+            storageBucket: "projoin-b2d3c.firebasestorage.app",
+            messagingSenderId: "886679815440",
+            appId: "1:886679815440:web:279c6b93e3bd38bacc1195",
+            measurementId: "G-5Z0FKF3CZL"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        window.db = db;
+        window.firebaseRefs = { ref, get, child, update, push };
+    </script>
+
+    <!-- Header Navigation -->
+    <header class="glass-card sticky top-0 z-30 border-b border-cardBorder px-4 lg:px-8 py-4 flex items-center justify-between">
+        <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 rounded-xl bg-gradient-pink flex items-center justify-center text-white font-black text-lg shadow-md shadow-neonPink/40">
+                <i class="fa-solid fa-coins"></i>
+            </div>
+            <div>
+                <span class="text-xl font-black tracking-tight">PROJOIN <span class="text-gradient">REWARDS</span></span>
+                <p class="text-[11px] opacity-70">ShrinkEarn Anti-Cheat Coin Claimer</p>
+            </div>
+        </div>
+        <div>
+            <span class="px-3 py-1 rounded-full text-xs font-extrabold bg-amber-500/10 text-amber-400 border border-amber-400/30 font-mono">
+                <i class="fa-solid fa-gift mr-1"></i> Reward: 2.00 Coins
+            </span>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="flex-1 max-w-xl w-full mx-auto p-4 lg:p-6 flex flex-col justify-center">
+        
+        <!-- STEP 1: Generate & Visit Shortened Link Card (Waqt se pehle hide/show logic) -->
+        <div id="stepGenerateCard" class="glass-card rounded-3xl p-6 lg:p-8 neon-glow border-cardBorder space-y-6">
+            <div class="text-center space-y-2">
+                <div class="w-16 h-16 rounded-2xl bg-neonPink/20 text-neonPink flex items-center justify-center text-3xl mx-auto border border-neonPink/30">
+                    <i class="fa-solid fa-shield-halved animate-pulse"></i>
+                </div>
+                <h2 class="text-2xl font-black">Step 1: Verify via Short Link</h2>
+                <p class="text-xs text-gray-400 leading-relaxed">
+                    Cheat protection active hai! Coins claim karne ke liye pehle niche button par click karke ShrinkEarn link complete karein.
+                </p>
+            </div>
+
+            <div id="linkContainer" class="hidden space-y-3">
+                <div class="p-3 bg-black/40 border border-cardBorder rounded-xl text-center">
+                    <p class="text-[11px] text-gray-400 mb-1">Aapka Secure Verification Link:</p>
+                    <input type="text" id="generatedShortUrl" readonly class="w-full bg-transparent text-center font-mono text-xs text-cyan-300 font-bold focus:outline-none truncate">
+                </div>
+                <a id="visitLinkBtn" href="#" target="_blank" onclick="handleLinkVisited()" class="w-full py-3.5 rounded-xl bg-gradient-cyan text-black font-black hover:opacity-90 transition shadow-lg shadow-cyan-500/30 flex items-center justify-center space-x-2 text-sm">
+                    <span>Short Link Open Karein</span>
+                    <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
+                </a>
+            </div>
+
+            <button id="generateBtn" onclick="generateShrinkEarnLink()" class="w-full py-4 rounded-xl bg-gradient-pink text-white font-black hover:opacity-95 transition shadow-lg shadow-neonPink/40 flex items-center justify-center space-x-2 text-sm">
+                <i class="fa-solid fa-bolt"></i>
+                <span>Get Secure Link</span>
+            </button>
+        </div>
+
+        <!-- STEP 2: Claim Coins Card (Sirf tabhi dikhega jab user ShrinkEarn se verify hokar aayega) -->
+        <div id="stepClaimCard" class="glass-card rounded-3xl p-6 lg:p-8 neon-glow-cyan border-cyan-500/30 space-y-6 hidden">
+            <div class="text-center space-y-2">
+                <div class="w-16 h-16 rounded-2xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-3xl mx-auto border border-emerald-500/30 shadow-inner">
+                    <i class="fa-solid fa-circle-check"></i>
+                </div>
+                <h2 class="text-2xl font-black text-emerald-400">Verification Successful!</h2>
+                <p class="text-xs text-gray-400 leading-relaxed">
+                    Aapne successfully short link pass kar liya hai. Ab apni **Referral ID** (e.g. 1001) enter karein aur 2 coins claim karein[span_5](start_span)[span_5](end_span).
+                </p>
+            </div>
+
+            <form onsubmit="handleClaimCoins(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold uppercase tracking-wider mb-2 opacity-80 text-cyan-300">Apni Referral ID Enter Karein</label>
+                    <div class="flex items-center bg-black/40 border border-cyan-500/40 rounded-xl px-4 py-3 focus-within:border-cyan-400 transition">
+                        <span class="text-cyan-400 font-mono font-bold mr-1">PJ-</span>
+                        <input type="number" pattern="[0-9]*" id="userRefIdNum" required placeholder="1001" class="w-full bg-transparent text-cyan-300 font-mono font-bold placeholder-gray-600 focus:outline-none">
+                    </div>
+                </div>
+
+                <button type="submit" id="claimSubmitBtn" class="w-full py-4 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 text-black font-black hover:opacity-95 transition shadow-lg shadow-amber-500/30 flex items-center justify-center space-x-2 text-sm">
+                    <i class="fa-solid fa-coins"></i>
+                    <span>Claim 2 Coins Now</span>
+                </button>
+            </form>
+        </div>
+
+    </main>
+
+    <!-- Custom Notification Toast -->
+    <div id="toastContainer" class="fixed bottom-5 right-5 z-50 flex flex-col space-y-2 pointer-events-none"></div>
+
+    <!-- Coins Awarded Modal (Mazeed coins ke liye wapas short link par bhejne ka option) -->
+    <div id="successModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md hidden">
+        <div class="glass-card rounded-3xl p-6 lg:p-8 max-w-md w-full mx-4 border-amber-400/50 text-center space-y-5 shadow-2xl shadow-amber-500/20">
+            <div class="w-16 h-16 rounded-2xl bg-amber-500/20 text-amber-400 flex items-center justify-center text-3xl mx-auto border border-amber-400/30">
+                <i class="fa-solid fa-gift animate-bounce"></i>
+            </div>
+
+            <div>
+                <h3 class="text-2xl font-black text-amber-400">2.00 Coins Successfully Added!</h3>
+                <p class="text-xs text-gray-300 mt-1">Aapke account mein coins transfer ho chuke hain.</p>
+            </div>
+
+            <div class="bg-black/40 rounded-2xl p-4 border border-cardBorder text-left space-y-2 font-mono text-xs">
+                <div class="flex justify-between border-b border-cardBorder pb-2">
+                    <span class="text-gray-400">User Name:</span>
+                    <span id="modalUserName" class="font-bold text-white"></span>
+                </div>
+                <div class="flex justify-between border-b border-cardBorder pb-2">
+                    <span class="text-gray-400">Referral ID:</span>
+                    <span id="modalUserRef" class="text-neonPink font-bold"></span>
+                </div>
+                <div class="flex justify-between pt-1">
+                    <span class="text-gray-400 font-bold">New Balance:</span>
+                    <span id="modalNewBalance" class="text-emerald-400 font-black text-sm"></span>
+                </div>
+            </div>
+
+            <div class="space-y-2">
+                <button onclick="requestMoreCoins()" class="w-full py-3.5 rounded-xl bg-gradient-pink text-white font-extrabold hover:opacity-95 transition shadow-lg shadow-neonPink/30 flex items-center justify-center space-x-2">
+                    <i class="fa-solid fa-rotate-right"></i>
+                    <span>Mazeed Coins Chahiye? Phir Short Link Kholen</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="py-4 text-center text-xs opacity-50 border-t border-cardBorder">
+        © 2026 ProJoin Rewards Hub. Anti-Cheat Protection Enabled.
+    </footer>
+
+    <!-- Logic Script -->
+    <script>
+        const SHRINKEARN_API_KEY = "ae189d2eb97afe63f25e3422af577beeb659f6c3";
+        const SECRET_CHECK_TOKEN = "projoin_secure_token_9988";
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const token = urlParams.get('token');
+
+            // Anti-Cheat Check: Sirf tabhi claim card dikhega jab valid token match hoga
+            if (token === SECRET_CHECK_TOKEN) {
+                document.getElementById('stepGenerateCard').classList.add('hidden');
+                document.getElementById('stepClaimCard').classList.remove('hidden');
+                showToast("Verification successful! Ab apni Referral ID enter karein.", "success");
+            } else {
+                document.getElementById('stepGenerateCard').classList.remove('hidden');
+                document.getElementById('stepClaimCard').classList.add('hidden');
+            }
+        });
+
+        async function generateShrinkEarnLink() {
+            const generateBtn = document.getElementById('generateBtn');
+            generateBtn.disabled = true;
+            generateBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> <span>Generating Secure Link...</span>`;
+
+            // Destination URL jiske sath secret token hoga taake cheat na ho sake
+            const currentBaseUrl = window.location.origin + window.location.pathname;
+            const targetDestination = `${currentBaseUrl}?token=${SECRET_CHECK_TOKEN}`;
+
+            const apiEndpoint = `https://shrinkearn.com/api?api=${SHRINKEARN_API_KEY}&url=${encodeURIComponent(targetDestination)}`;
+
+            try {
+                const response = await fetch(apiEndpoint);
+                const data = await response.json();
+
+                if (data.status === 'success' && data.shortenedUrl) {
+                    document.getElementById('generatedShortUrl').value = data.shortenedUrl;
+                    document.getElementById('visitLinkBtn').href = data.shortenedUrl;
+                    
+                    document.getElementById('linkContainer').classList.remove('hidden');
+                    generateBtn.classList.add('hidden');
+                    showToast("Secure short link tayar hai!", "success");
+                } else {
+                    throw new Error(data.message || "API error");
+                }
+            } catch (err) {
+                console.error("API Error:", err);
+                const fallbackUrl = `https://shrinkearn.com/api?api=${SHRINKEARN_API_KEY}&url=${encodeURIComponent(targetDestination)}`;
+                window.location.href = fallbackUrl;
+            }
+        }
+
+        function handleLinkVisited() {
+            showToast("Short link open ho gaya hai. Complete karke wapas aayein!", "success");
+        }
+
+        async function handleClaimCoins(event) {
+            event.preventDefault();
+
+            const numInput = document.getElementById('userRefIdNum').value.trim();
+            if (!numInput) {
+                showToast("Meharbani karke Referral ID enter karein.", "error");
+                return;
+            }
+
+            const refIdInput = 'PJ-' + numInput;
+            const claimBtn = document.getElementById('claimSubmitBtn');
+            claimBtn.disabled = true;
+            claimBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> <span>Adding Coins...</span>`;
+
+            const { ref, get, child, update, push } = window.firebaseRefs;
+            const dbRef = ref(window.db);
+
+            try {
+                const usersSnap = await get(child(dbRef, 'users'));
+
+                if (!usersSnap.exists()) {
+                    showToast("Database mein users nahi mile.", "error");
+                    claimBtn.disabled = false;
+                    claimBtn.innerHTML = `<i class="fa-solid fa-coins"></i> <span>Claim 2 Coins Now</span>`;
+                    return;
+                }
+
+                const users = usersSnap.val();
+                let foundUid = null;
+                let foundUser = null;
+
+                for (let uid in users) {
+                    if (users[uid].referralId && users[uid].referralId.toUpperCase() === refIdInput.toUpperCase()) {
+                        foundUid = uid;
+                        foundUser = users[uid];
+                        break;
+                    }
+                }
+
+                if (!foundUid || !foundUser) {
+                    showToast(`Referral ID (${refIdInput}) nahi mili. Check karke dobara dalein!`, "error");
+                    claimBtn.disabled = false;
+                    claimBtn.innerHTML = `<i class="fa-solid fa-coins"></i> <span>Claim 2 Coins Now</span>`;
+                    return;
+                }
+
+                if (foundUser.isBanned) {
+                    showToast("Yeh account banned hai!", "error");
+                    claimBtn.disabled = false;
+                    claimBtn.innerHTML = `<i class="fa-solid fa-coins"></i> <span>Claim 2 Coins Now</span>`;
+                    return;
+                }
+
+                const rewardCoins = 2.00;
+                const currentBalance = foundUser.balance || 0;
+                const newBalance = currentBalance + rewardCoins;
+
+                // Balance Update & Transaction Log
+                await update(ref(window.db, `users/${foundUid}`), { balance: newBalance });
+
+                await push(ref(window.db, `transactions/${foundUid}`), {
+                    type: 'ShrinkEarn Anti-Cheat Reward',
+                    details: 'Claimed 2 free coins after completing verified short link',
+                    amount: rewardCoins,
+                    timestamp: Date.now()
+                });
+
+                document.getElementById('modalUserName').innerText = foundUser.name || 'N/A';
+                document.getElementById('modalUserRef').innerText = foundUser.referralId || refIdInput;
+                document.getElementById('modalNewBalance').innerText = `${newBalance.toFixed(2)} Coins`;
+
+                document.getElementById('successModal').classList.remove('hidden');
+
+            } catch (err) {
+                console.error(err);
+                showToast("Masla aya hai, dobara koshish karein.", "error");
+                claimBtn.disabled, claimBtn.disabled = false;
+                claimBtn.innerHTML = `<i class="fa-solid fa-coins"></i> <span>Claim 2 Coins Now</span>`;
+            }
+        }
+
+        // Mazeed coins ke liye user ko wapas clean URL par bhej kar short link generate karwayega
+        function requestMoreCoins() {
+            window.location.href = window.location.pathname;
+        }
+
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `glass-card px-4 py-3 rounded-2xl shadow-2xl text-xs font-semibold flex items-center space-x-2 border ${type === 'success' ? 'border-emerald-500/40 text-emerald-400' : 'border-red-500/40 text-red-400'} pointer-events-auto transition transform translate-y-2 opacity-0`;
+            toast.innerHTML = `<i class="fa-solid ${type === 'success' ? 'fa-circle-check' : 'fa-triangle-exclamation'}"></i><span>${message}</span>`;
+            container.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.classList.remove('translate-y-2', 'opacity-0');
+            }, 10);
+
+            setTimeout(() => {
+                toast.classList.add('translate-y-2', 'opacity-0');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+    </script>
+</body>
+</html>

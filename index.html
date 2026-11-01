@@ -104,7 +104,7 @@
     <!-- Main Container -->
     <main class="flex-1 max-w-xl w-full mx-auto p-4 lg:p-6 flex flex-col justify-center">
         
-        <!-- STEP 1: Agar User Short Link pass karke nahi aaya -->
+        <!-- STEP 1: Short Link Open Card -->
         <div id="stepGenerateCard" class="glass-card rounded-3xl p-6 lg:p-8 neon-glow border-cardBorder space-y-6">
             <div class="text-center space-y-2">
                 <div class="w-16 h-16 rounded-2xl bg-neonPink/20 text-neonPink flex items-center justify-center text-3xl mx-auto border border-neonPink/30">
@@ -112,7 +112,7 @@
                 </div>
                 <h2 class="text-2xl font-black">Step 1: Short Link Pass Karein</h2>
                 <p class="text-xs text-gray-400 leading-relaxed">
-                    Cheat protection active hai! Coins claim karne ke liye pehle niche diye gaye short link ko complete karke wapas aayein.
+                    Coins claim karne ke liye pehle niche diye gaye short link par click karein aur link complete karke wapas aayein.
                 </p>
             </div>
 
@@ -124,15 +124,15 @@
             </div>
         </div>
 
-        <!-- STEP 2: Claim Coins Card (Sirf tabhi dikhega jab user short link pass karke aayega) -->
+        <!-- STEP 2: Claim Coins Card -->
         <div id="stepClaimCard" class="glass-card rounded-3xl p-6 lg:p-8 neon-glow-cyan border-cyan-500/30 space-y-6 hidden">
             <div class="text-center space-y-2">
                 <div class="w-16 h-16 rounded-2xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-3xl mx-auto border border-emerald-500/30 shadow-inner">
                     <i class="fa-solid fa-circle-check"></i>
                 </div>
-                <h2 class="text-2xl font-black text-emerald-400">Short Link Verified Successfully!</h2>
+                <h2 class="text-2xl font-black text-emerald-400">Short Link Verified!</h2>
                 <p class="text-xs text-gray-400 leading-relaxed">
-                    Aapne short link successfully pass kar liya hai[span_1](start_span)[span_1](end_span). Ab apni **Referral ID** enter karein aur instant 2 coins hasil karein[span_2](start_span)[span_2](end_span).
+                    Aap short link open karke aa chuke hain[span_0](start_span)[span_0](end_span). Ab apni **Referral ID** enter karein aur instant 2 coins hasil karein[span_1](start_span)[span_1](end_span).
                 </p>
             </div>
 
@@ -166,7 +166,7 @@
 
             <div>
                 <h3 class="text-2xl font-black text-amber-400">2.00 Coins Successfully Added!</h3>
-                <p class="text-xs text-gray-300 mt-1">Aapke account mein coins transfer ho chuke hain[span_3](start_span)[span_3](end_span).</p>
+                <p class="text-xs text-gray-300 mt-1">Aapke account mein coins transfer ho chuke hain[span_2](start_span)[span_2](end_span).</p>
             </div>
 
             <div class="bg-black/40 rounded-2xl p-4 border border-cardBorder text-left space-y-2 font-mono text-xs">
@@ -200,25 +200,13 @@
 
     <!-- Logic Script -->
     <script>
-        const SECRET_PASS_TOKEN = "projoin_verified_link_7788";
-
         window.addEventListener('DOMContentLoaded', () => {
-            const urlParams = new URLSearchParams(window.location.search);
-            const token = urlParams.get('passed');
+            // Check karo ke user ne link visit kiya tha ya nahi
+            const hasVisitedLink = localStorage.getItem('pj_visited_shortlink');
 
-            // Agar user ne link par click karke token hasil kiya hai
-            if (token === SECRET_PASS_TOKEN) {
-                // Session mein save kar lo taake refresh karne par bar bar token gayab na ho
-                sessionStorage.setItem('pj_link_passed', 'true');
-                // URL saaf kar do taake clean URL rahe
-                window.history.replaceState({}, document.title, window.location.pathname);
-            }
-
-            // Check karo ke session mein pass status maujud hai ya nahi
-            if (sessionStorage.getItem('pj_link_passed') === 'true') {
+            if (hasVisitedLink === 'true') {
                 document.getElementById('stepGenerateCard').classList.add('hidden');
                 document.getElementById('stepClaimCard').classList.remove('hidden');
-                showToast("Short link successfully verified!", "success");
             } else {
                 document.getElementById('stepGenerateCard').classList.remove('hidden');
                 document.getElementById('stepClaimCard').classList.add('hidden');
@@ -227,21 +215,17 @@
 
         // Jab user short link button par click karega
         function handleLinkVisited() {
-            // User ko token ke sath redirect karne ke liye hum short link target set karte hain
-            // Ya user jab srnky.com/yNHJ complete karke is page par aayega toh hum usko token pass karenge.
-            // Behtar yeh hai ke aap ShrinkEarn par target link yeh set karein:
-            // https://leafawsome-max.github.io/ProJoin-Claim/?passed=projoin_verified_link_7788
-            
+            // Browser mein save kar lo ke user ne link khol diya hai
+            localStorage.setItem('pj_visited_shortlink', 'true');
             showToast("Short link open ho gaya hai. Complete karke wapas aayein!", "success");
         }
 
         async function handleClaimCoins(event) {
             event.preventDefault();
 
-            // Double check anti-cheat: Agar session mein pass nahi hai toh block kar do
-            if (sessionStorage.getItem('pj_link_passed') !== 'true') {
-                showToast("Cheat detected! Pehle short link pass karein.", "error");
-                setTimeout(() => { window.location.reload(); }, 2000);
+            // Check karo ke user ne link visit kiya tha ya direct cheat kar raha hai
+            if (localStorage.getItem('pj_visited_shortlink') !== 'true') {
+                showToast("Pehle short link open karein!", "error");
                 return;
             }
 
@@ -309,8 +293,8 @@
                     timestamp: Date.now()
                 });
 
-                // 2. Security token/session ko clear kar do taake wohi user bar bar bina naye link ke claim na kar sake
-                sessionStorage.removeItem('pj_link_passed');
+                // 2. Claim hone ke baad status hata do taake agle claim ke liye dobara link kholna pare
+                localStorage.removeItem('pj_visited_shortlink');
 
                 document.getElementById('modalUserName').innerText = foundUser.name || 'N/A';
                 document.getElementById('modalUserRef').innerText = foundUser.referralId || refIdInput;
@@ -328,7 +312,7 @@
 
         // Mazeed coins ke liye user ko wapas short link par bhejna
         function requestMoreCoins() {
-            sessionStorage.removeItem('pj_link_passed');
+            localStorage.removeItem('pj_visited_shortlink');
             window.location.href = "https://srnky.com/yNHJ";
         }
 
@@ -337,7 +321,7 @@
             const toast = document.createElement('div');
             toast.className = `glass-card px-4 py-3 rounded-2xl shadow-2xl text-xs font-semibold flex items-center space-x-2 border ${type === 'success' ? 'border-emerald-500/40 text-emerald-400' : 'border-red-500/40 text-red-400'} pointer-events-auto transition transform translate-y-2 opacity-0`;
             toast.innerHTML = `<i class="fa-solid ${type === 'success' ? 'fa-circle-check' : 'fa-triangle-exclamation'}"></i><span>${message}</span>`;
-            container.data ? '' : container.appendChild(toast);
+            container.appendChild(toast);
             
             setTimeout(() => {
                 toast.classList.remove('translate-y-2', 'opacity-0');

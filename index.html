@@ -93,7 +93,7 @@
         </div>
         <div>
             <span class="px-3 py-1 rounded-full text-xs font-extrabold bg-amber-500/10 text-amber-400 border border-amber-400/30 font-mono">
-                <i class="fa-solid fa-gift mr-1"></i> Reward: Unlimited Coins
+                <i class="fa-solid fa-gift mr-1"></i> Reward: Unlimited Coins (Max 10 Claims/Day)
             </span>
         </div>
     </header>
@@ -109,7 +109,7 @@
                 </div>
                 <h2 class="text-2xl font-black">Step 1: Gplink Pass Karein</h2>
                 <p class="text-xs text-gray-400 leading-relaxed">
-                    Coins claim karne ke liye pehle niche diye gaye Gplink par click karein aur link complete karke wapas aayein.
+                    Coins claim karne ke liye pehle niche diye gaye Gplink par click karein aur link complete karein (Kam az kam 2 minute lagayein).
                 </p>
             </div>
 
@@ -129,7 +129,7 @@
                 </div>
                 <h2 class="text-2xl font-black text-emerald-400">Gplink Verified!</h2>
                 <p class="text-xs text-gray-400 leading-relaxed">
-                    Aap Gplink open karke aa chuke hain. Ab apni **Referral ID** enter karein aur coins hasil karein.
+                    Aap Gplink open karke poora waqt guzar kar aa chuke hain. Ab apni **Referral ID** enter karein aur coins hasil karein.
                 </p>
             </div>
 
@@ -200,27 +200,56 @@
         const GPLINKS_API_TOKEN = "4400c0277bc4712a16025d8356fcd2bf7bbacfb2";
 
         window.addEventListener('DOMContentLoaded', () => {
-            const hasVisitedLink = localStorage.getItem('pj_visited_shortlink');
+            checkLinkVerificationStatus();
 
-            if (hasVisitedLink === 'true') {
-                document.getElementById('stepGenerateCard').classList.add('hidden');
-                document.getElementById('stepClaimCard').classList.remove('hidden');
-            } else {
-                document.getElementById('stepGenerateCard').classList.remove('hidden');
-                document.getElementById('stepClaimCard').classList.add('hidden');
-            }
+            // Jab user wapas tab par aaye (visibility change ya window focus)
+            document.addEventListener('visibilitychange', () => {
+                if (!document.hidden) {
+                    checkLinkVerificationStatus();
+                }
+            });
+            window.addEventListener('focus', () => {
+                checkLinkVerificationStatus();
+            });
         });
 
         function handleLinkVisited() {
-            localStorage.setItem('pj_visited_shortlink', 'true');
-            showToast("Gplink open ho gaya hai. Complete karke wapas aayein!", "success");
+            // Click karte waqt exact time save kar lo
+            const clickTime = Date.now();
+            localStorage.setItem('pj_click_time', clickTime);
+            localStorage.setItem('pj_link_clicked', 'true');
+            showToast("Gplink open ho gaya hai. 2 minute wahan guzar kar wapas aayein!", "success");
+        }
+
+        function checkLinkVerificationStatus() {
+            const isClicked = localStorage.getItem('pj_link_clicked');
+            const clickTime = localStorage.getItem('pj_click_time');
+
+            if (isClicked === 'true' && clickTime) {
+                const currentTime = Date.now();
+                const timeElapsed = (currentTime - parseInt(clickTime)) / 1000; // Seconds mein conversion
+
+                // 2 Minute = 120 Seconds. Agar 120 seconds se pehle wapas aaya toh error.
+                if (timeElapsed < 120) {
+                    showToast("Aapne 2 minute poore nahi kiye! Link complete karke wapas aayein.", "error");
+                    localStorage.removeItem('pj_link_clicked');
+                    localStorage.removeItem('pj_click_time');
+                    document.getElementById('stepGenerateCard').classList.remove('hidden');
+                    document.getElementById('stepClaimCard').classList.add('hidden');
+                } else {
+                    // Agar 120 seconds ya zyada guzar chuke hain, tabhi step 2 khulega
+                    localStorage.setItem('pj_visited_shortlink', 'true');
+                    document.getElementById('stepGenerateCard').classList.add('hidden');
+                    document.getElementById('stepClaimCard').classList.remove('hidden');
+                }
+            }
         }
 
         async function handleClaimCoins(event) {
             event.preventDefault();
 
             if (localStorage.getItem('pj_visited_shortlink') !== 'true') {
-                showToast("Pehle Gplink open karein!", "error");
+                showToast("Pehle Gplink mukammal open karein!", "error");
                 return;
             }
 
@@ -274,9 +303,23 @@
                     return;
                 }
 
+                const todayStr = new Date().toISOString().split('T')[0];
+                let dailyClaimsCount = foundUser.dailyClaimsCount || 0;
+                let lastClaimDate = foundUser.lastClaimDate || '';
+
+                if (lastClaimDate !== todayStr) {
+                    dailyClaimsCount = 0;
+                }
+
+                if (dailyClaimsCount >= 10) {
+                    showToast("Aapki aaj ki 10 claims ki limit poori ho chuki hai. Kal koshish karein!", "error");
+                    claimBtn.disabled = false;
+                    claimBtn.innerHTML = `<i class="fa-solid fa-coins"></i> <span>Claim Coins Now</span>`;
+                    return;
+                }
+
                 const currentBalance = foundUser.balance || 0;
 
-                // **9k ya usse zyada hone par backend me 0.005 add hoga, par front par fake 5 coins dikhenge**
                 let rewardCoins = 5.00;
                 let isUltraSlow = false;
 
@@ -286,27 +329,32 @@
                 }
 
                 const newBalance = currentBalance + rewardCoins;
+                const newDailyCount = dailyClaimsCount + 1;
 
-                // 1. Balance update aur Transaction log (Backend par real calculation hogi)
-                await update(ref(window.db, `users/${foundUid}`), { balance: newBalance });
+                await update(ref(window.db, `users/${foundUid}`), { 
+                    balance: newBalance,
+                    dailyClaimsCount: newDailyCount,
+                    lastClaimDate: todayStr
+                });
 
                 await push(ref(window.db, `transactions/${foundUid}`), {
                     type: 'Gplinks Reward',
-                    details: isUltraSlow ? 'Claimed 0.005 ultra slow coins (9k+ limit reached)' : 'Claimed 5 free coins via Gplinks',
+                    details: isUltraSlow ? `Claimed 0.005 ultra slow coins (Claim #${newDailyCount} today)` : `Claimed 5 free coins via Gplinks (Claim #${newDailyCount} today)`,
                     amount: rewardCoins,
                     timestamp: Date.now()
                 });
 
-                // 2. Claim hone ke baad status hata do taake agle claim ke liye dobara link kholna pare
+                // Clear temporary tokens so user must click link again for next claim
                 localStorage.removeItem('pj_visited_shortlink');
+                localStorage.removeItem('pj_link_clicked');
+                localStorage.removeItem('pj_click_time');
 
                 document.getElementById('modalUserName').innerText = foundUser.name || 'N/A';
                 document.getElementById('modalUserRef').innerText = foundUser.referralId || refIdInput;
                 document.getElementById('modalNewBalance').innerText = `${newBalance.toFixed(3)} Coins`;
 
-                // **Frontend par hamesha normal 5 coins wala fake message hi show hoga**
                 document.getElementById('modalTitle').innerText = "5.00 Coins Successfully Added!";
-                document.getElementById('modalSubText').innerText = "Aapke account mein coins transfer ho chuke hain.";
+                document.getElementById('modalSubText').innerText = `Aapke account mein coins transfer ho chuke hain. (Aaj ke claims: ${newDailyCount}/10)`;
 
                 document.getElementById('successModal').classList.remove('hidden');
 
@@ -320,6 +368,8 @@
 
         function requestMoreCoins() {
             localStorage.removeItem('pj_visited_shortlink');
+            localStorage.removeItem('pj_link_clicked');
+            localStorage.removeItem('pj_click_time');
             window.location.href = "https://gplinks.co/jNylw";
         }
 

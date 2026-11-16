@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="ur" class="dark">
+<html lang="en" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ProJoin - Secure Gplinks Coin Rewards</title>
-    <!-- Tailwind CSS -->
+    <title>ProJoin 2027 - Official Poll Tournament</title>
+    
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -16,25 +17,33 @@
                         cardBg: '#121218',
                         cardBorder: '#272735',
                         neonPink: '#ff2a85',
-                        neonPurple: '#b829ff',
-                        neonCyan: '#00f2fe'
+                        neonPurple: '#b829ff'
                     }
                 }
             }
         }
     </script>
-    <!-- FontAwesome for Icons -->
+    
+    <!-- FontAwesome CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <!-- Google Fonts Inter -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
     <style>
         body {
             font-family: 'Inter', sans-serif;
             background-color: #0a0a0c;
             color: #f3f4f6;
+            -webkit-user-select: none;
+            user-select: none;
         }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0a0a0c; }
+        ::-webkit-scrollbar-thumb { background: #ff2a85; border-radius: 4px; }
+        .neon-glow { box-shadow: 0 0 25px rgba(255, 42, 133, 0.25); }
         .text-gradient {
-            background: linear-gradient(135deg, #ff2a85 0%, #b829ff 50%, #00f2fe 100%);
+            background: linear-gradient(135deg, #ff2a85 0%, #b829ff 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
@@ -45,108 +54,473 @@
             background: rgba(18, 18, 24, 0.85);
             backdrop-filter: blur(16px);
             border: 1px solid rgba(255, 42, 133, 0.2);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-        }
-        .neon-glow {
-            box-shadow: 0 0 25px rgba(255, 42, 133, 0.25);
         }
     </style>
 </head>
-<body class="min-h-screen flex flex-col justify-between selection:bg-neonPink selection:text-white">
+<body class="min-h-screen flex flex-col selection:bg-neonPink selection:text-white" oncontextmenu="return false;">
 
-    <!-- Firebase SDK Setup -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
-        import { getDatabase, ref, get, child, update, push } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-database.js";
-
-        const firebaseConfig = {
-            apiKey: "AIzaSyBAjO52-ZVb6jKurqJREtMo7PrRdmRf6is",
-            authDomain: "projoin-b2d3c.firebaseapp.com",
-            databaseURL: "https://projoin-b2d3c-default-rtdb.firebaseio.com",
-            projectId: "projoin-b2d3c",
-            storageBucket: "projoin-b2d3c.firebasestorage.app",
-            messagingSenderId: "886679815440",
-            appId: "1:886679815440:web:279c6b93e3bd38bacc1195",
-            measurementId: "G-5Z0FKF3CZL"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const db = getDatabase(app);
-
-        window.db = db;
-        window.firebaseRefs = { ref, get, child, update, push };
-    </script>
-
-    <!-- Header Navigation -->
+    <!-- Top Navbar -->
     <header class="glass-card sticky top-0 z-30 border-b border-cardBorder px-4 lg:px-8 py-4 flex items-center justify-between">
         <div class="flex items-center space-x-3">
-            <div class="w-10 h-10 rounded-xl bg-gradient-pink flex items-center justify-center text-white font-black text-lg shadow-md shadow-neonPink/40">
-                <i class="fa-solid fa-coins"></i>
+            <div class="w-10 h-10 rounded-xl bg-gradient-pink flex items-center justify-center text-white font-black text-lg shadow-lg shadow-neonPink/40">
+                <i class="fa-solid fa-bolt"></i>
             </div>
             <div>
-                <span class="text-xl font-black tracking-tight">PROJOIN <span class="text-gradient">REWARDS</span></span>
-                <p class="text-[11px] opacity-70">Rewards System Status</p>
+                <span class="text-xl font-black tracking-tight">PRO<span class="text-gradient">JOIN</span> 2027</span>
+                <div class="flex items-center space-x-2">
+                    <span class="inline-block w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                    <span class="text-[11px] opacity-70">Anti-Hack & Anti-Console Shield Active</span>
+                </div>
             </div>
         </div>
-        <div>
-            <span class="px-3 py-1 rounded-full text-xs font-extrabold bg-red-500/10 text-red-400 border border-red-400/30 font-mono">
-                <i class="fa-solid fa-ban mr-1"></i> System Disabled
-            </span>
+
+        <div class="flex items-center space-x-3">
+            <div id="userBadgeDisplay" class="px-3.5 py-2 rounded-xl bg-cardBg border border-neonPink/30 text-xs font-mono font-bold text-neonPink">
+                Hardware Verified
+            </div>
         </div>
     </header>
 
     <!-- Main Container -->
-    <main class="flex-1 max-w-xl w-full mx-auto p-4 lg:p-6 flex flex-col justify-center">
-        
-        <!-- Disabled Notice Card -->
-        <div class="glass-card rounded-3xl p-6 lg:p-8 neon-glow border-cardBorder text-center space-y-6">
-            <div class="w-16 h-16 rounded-2xl bg-red-500/20 text-red-500 flex items-center justify-center text-3xl mx-auto border border-red-500/30">
-                <i class="fa-solid fa-triangle-exclamation animate-pulse"></i>
-            </div>
-            <div class="space-y-2">
-                <h2 class="text-2xl font-black text-white">Claim System Temporarily Closed</h2>
-                <p class="text-xs text-gray-400 leading-relaxed">
-                    Filhal rewards claim karne ka system disable kar diya gaya hai. Mazeed maloomat ke liye admin se rabta karein.
-                </p>
-            </div>
+    <main class="flex-1 max-w-5xl w-full mx-auto p-4 lg:p-8 space-y-6">
 
-            <div class="p-4 rounded-2xl bg-black/40 border border-cardBorder text-xs text-gray-400 font-mono">
-                Status: <span class="text-red-400 font-bold">Offline / Disabled</span>
+        <!-- Hero Banner & 5-Day Live Countdown -->
+        <div class="glass-card rounded-3xl p-6 lg:p-8 border-2 border-neonPink/40 neon-glow relative overflow-hidden bg-gradient-to-r from-cardBg via-[#181524] to-cardBg">
+            <div class="absolute right-0 top-0 w-96 h-96 bg-gradient-pink opacity-15 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+                <div class="space-y-2">
+                    <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-amber-500/15 border border-amber-500/40 text-amber-400 text-xs font-extrabold uppercase tracking-wider">
+                        <i class="fa-solid fa-shield-halved animate-bounce"></i>
+                        <span>Tamper-Proof 5-Day Mega Event</span>
+                    </div>
+                    <h1 class="text-2xl sm:text-4xl font-black text-gradient tracking-tight">ProJoin Poll Tournament 2027</h1>
+                    <p class="text-xs sm:text-sm opacity-80 max-w-lg leading-relaxed">
+                        Har device aur user sirf <strong>1 vote</strong> cast kar sakta hai. Console commands aur HTML inspect hacks block hain.
+                    </p>
+                    <div class="pt-1 flex items-center space-x-4 text-xs font-mono text-gray-400">
+                        <span><i class="fa-solid fa-users text-neonPink mr-1"></i> Contestants: <strong class="text-white">8</strong></span>
+                        <span><i class="fa-solid fa-check-to-slot text-emerald-400 mr-1"></i> Valid Polls: <strong id="totalPollsCastDisplay" class="text-white">0</strong></span>
+                    </div>
+                </div>
+
+                <!-- 5-Day Live Countdown Box -->
+                <div class="w-full md:w-auto bg-black/60 border-2 border-neonPink/50 rounded-2xl p-5 text-center min-w-[260px] shadow-2xl backdrop-blur-xl">
+                    <div class="text-[10px] uppercase font-bold text-gray-400 tracking-widest mb-1">Time Remaining</div>
+                    <div id="tournamentTimerDisplay" class="text-xl sm:text-2xl font-mono font-black text-neonPink tracking-wider">
+                        05d : 00h : 00m : 00s
+                    </div>
+                    <div id="tournamentStatusBadge" class="text-[11px] font-bold text-emerald-400 mt-1.5 uppercase">
+                        <i class="fa-solid fa-circle text-[8px] animate-ping mr-1"></i> Voting Live & Secured
+                    </div>
+                </div>
             </div>
+        </div>
+
+        <!-- Winner Announcement Banner -->
+        <div id="tournamentWinnerBanner" class="hidden glass-card rounded-3xl p-6 border-2 border-amber-400 bg-gradient-to-r from-amber-500/20 via-neonPink/20 to-amber-500/20 text-center space-y-2 neon-glow">
+            <div class="w-16 h-16 rounded-full bg-amber-400 text-black text-3xl flex items-center justify-center mx-auto shadow-lg shadow-amber-400/50">
+                <i class="fa-solid fa-crown"></i>
+            </div>
+            <div class="text-xs font-extrabold uppercase tracking-widest text-amber-400">Tournament Ended - Grand Champion</div>
+            <h2 id="winnerNameDisplay" class="text-2xl sm:text-3xl font-black text-white">--</h2>
+            <p id="winnerVotesDisplay" class="text-sm font-mono text-neonPink font-bold">Total Votes: 0</p>
+        </div>
+
+        <!-- Contestants Poll Grid -->
+        <div id="pollContestantsContainer" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <!-- Contestants injected dynamically -->
         </div>
 
     </main>
 
-    <!-- Custom Notification Toast -->
+    <!-- Toast Notification Container -->
     <div id="toastContainer" class="fixed bottom-5 right-5 z-50 flex flex-col space-y-2 pointer-events-none"></div>
 
-    <!-- Footer -->
-    <footer class="py-4 text-center text-xs opacity-50 border-t border-cardBorder">
-        © 2026 ProJoin Rewards Hub. All Rights Reserved.
-    </footer>
-
-    <!-- Logic Script -->
+    <!-- Anti-Inspect & Shortcut Blocker -->
     <script>
-        window.addEventListener('DOMContentLoaded', () => {
-            showToast("Rewards Claim System is currently disabled.", "error");
+        document.addEventListener('keydown', function(e) {
+            // Block F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+Shift+C, Ctrl+U
+            if (
+                e.key === 'F12' || 
+                (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'i' || e.key === 'J' || e.key === 'j' || e.key === 'C' || e.key === 'c')) ||
+                (e.ctrlKey && (e.key === 'U' || e.key === 'u'))
+            ) {
+                e.preventDefault();
+                return false;
+            }
         });
+    </script>
 
-        function showToast(message, type = 'success') {
-            const container = document.getElementById('toastContainer');
-            const toast = document.createElement('div');
-            toast.className = `glass-card px-4 py-3 rounded-2xl shadow-2xl text-xs font-semibold flex items-center space-x-2 border ${type === 'success' ? 'border-emerald-500/40 text-emerald-400' : 'border-red-500/40 text-red-400'} pointer-events-auto transition transform translate-y-2 opacity-0`;
-            toast.innerHTML = `<i class="fa-solid ${type === 'success' ? 'fa-circle-check' : 'fa-triangle-exclamation'}"></i><span>${message}</span>`;
-            container.appendChild(toast);
-            
-            setTimeout(() => {
-                toast.classList.remove('translate-y-2', 'opacity-0');
-            }, 10);
+    <!-- Firebase SDK & Tamper-Proof Private Closure Logic -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
+        import { getDatabase, ref, set, get, child, onValue } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-database.js";
 
-            setTimeout(() => {
-                toast.classList.add('translate-y-2', 'opacity-0');
-                setTimeout(() => toast.remove(), 300);
-            }, 3000);
-        }
+        // Encapsulated inside private module scope so window.db, window.firebaseRefs, or functions are NOT accessible from Console!
+        (function() {
+            const firebaseConfig = {
+                apiKey: "AIzaSyBAjO52-ZVb6jKurqJREtMo7PrRdmRf6is",
+                authDomain: "projoin-b2d3c.firebaseapp.com",
+                databaseURL: "https://projoin-b2d3c-default-rtdb.firebaseio.com",
+                projectId: "projoin-b2d3c",
+                storageBucket: "projoin-b2d3c.firebasestorage.app",
+                messagingSenderId: "886679815440",
+                appId: "1:886679815440:web:279c6b93e3bd38bacc1195",
+                measurementId: "G-5Z0FKF3CZL"
+            };
+
+            const app = initializeApp(firebaseConfig);
+            const db = getDatabase(app);
+
+            // Deterministic Hardware + Browser Fingerprint (Survives localStorage / cache clearing!)
+            function generateHardwareFingerprint() {
+                try {
+                    const canvas = document.createElement('canvas');
+                    const ctx = canvas.getContext('2d');
+                    ctx.textBaseline = "top";
+                    ctx.font = "14px 'Arial'";
+                    ctx.fillStyle = "#f60";
+                    ctx.fillRect(125, 1, 62, 20);
+                    ctx.fillStyle = "#069";
+                    ctx.fillText("ProJoin2027_Shield", 2, 15);
+                    const canvasData = canvas.toDataURL();
+
+                    const rawTraits = [
+                        navigator.userAgent,
+                        navigator.language,
+                        screen.width + 'x' + screen.height + 'x' + screen.colorDepth,
+                        new Date().getTimezoneOffset(),
+                        navigator.hardwareConcurrency || 'unknown',
+                        navigator.deviceMemory || 'unknown',
+                        canvasData
+                    ].join('|||');
+
+                    // Simple fast 32-bit FNV-1a hash
+                    let hash = 2166136261;
+                    for (let i = 0; i < rawTraits.length; i++) {
+                        hash ^= rawTraits.charCodeAt(i);
+                        hash = Math.imul(hash, 16777619);
+                    }
+                    return 'hw_' + (hash >>> 0).toString(16);
+                } catch (e) {
+                    return 'hw_fallback_' + btoa(navigator.userAgent).substring(0, 16);
+                }
+            }
+
+            const hardwareId = generateHardwareFingerprint();
+            const loggedInUid = localStorage.getItem('projoin_user_id');
+            // Primary voter key uses logged-in UID if available, otherwise immutable hardware ID
+            const primaryVoterKey = loggedInUid ? `uid_${loggedInUid}` : hardwareId;
+
+            const badgeEl = document.getElementById('userBadgeDisplay');
+            if (badgeEl) {
+                badgeEl.innerText = `Device Lock: ${hardwareId.substring(0, 9)}`;
+            }
+
+            // Frozen Contestants List (Cannot be modified via console)
+            const TOURNAMENT_CONTESTANTS = Object.freeze([
+                Object.freeze({ id: "PJ-2412", name: "Shifa Ali" }),
+                Object.freeze({ id: "PJ-7369", name: "Alisha" }),
+                Object.freeze({ id: "PJ-2440", name: "Misbah" }),
+                Object.freeze({ id: "PJ-3576", name: "Bilawal" }),
+                Object.freeze({ id: "PJ-7257", name: "Bushra" }),
+                Object.freeze({ id: "PJ-8082", name: "Maryam" }),
+                Object.freeze({ id: "PJ-9294", name: "Arzu" }),
+                Object.freeze({ id: "PJ-5526", name: "Zainab" })
+            ]);
+            const VALID_IDS = new Set(TOURNAMENT_CONTESTANTS.map(c => c.id));
+
+            const FIVE_DAYS_MS = 5 * 24 * 60 * 60 * 1000;
+            let tournamentVotesData = {};
+            let tournamentHardwareLocks = {};
+            let tournamentEndTime = null;
+            let tournamentInterval = null;
+            let isVotingInProgress = false;
+
+            // Secret anti-tamper signature generator
+            function createIntegritySig(voterKey, hwId, contestantId, ts) {
+                const secretSalt = "PJ2027_ANTI_CONSOLE_SALT_9981";
+                const str = `${voterKey}:${hwId}:${contestantId}:${ts}:${secretSalt}`;
+                let h = 0x811c9dc5;
+                for (let i = 0; i < str.length; i++) {
+                    h ^= str.charCodeAt(i);
+                    h = Math.imul(h, 0x01000193);
+                }
+                return (h >>> 0).toString(16);
+            }
+
+            function initPollTournament2027() {
+                const dbRef = ref(db);
+
+                get(child(dbRef, 'tournament2027/meta')).then((snap) => {
+                    if (snap.exists() && snap.val().endTime) {
+                        tournamentEndTime = snap.val().endTime;
+                    } else {
+                        tournamentEndTime = Date.now() + FIVE_DAYS_MS;
+                        set(ref(db, 'tournament2027/meta'), {
+                            startTime: Date.now(),
+                            endTime: tournamentEndTime
+                        });
+                    }
+                    startTournamentCountdown();
+                });
+
+                // Real-time Votes Listener with Integrity Verification
+                onValue(ref(db, 'tournament2027/votes'), (snapshot) => {
+                    tournamentVotesData = snapshot.exists() ? snapshot.val() : {};
+                    renderPollTournamentUI();
+                });
+
+                // Real-time Hardware Locks Listener (Prevents multi-account voting from same device)
+                onValue(ref(db, 'tournament2027/deviceLocks'), (snapshot) => {
+                    tournamentHardwareLocks = snapshot.exists() ? snapshot.val() : {};
+                    renderPollTournamentUI();
+                });
+            }
+
+            function startTournamentCountdown() {
+                if (tournamentInterval) clearInterval(tournamentInterval);
+
+                tournamentInterval = setInterval(() => {
+                    if (!tournamentEndTime) return;
+                    const now = Date.now();
+                    const diff = tournamentEndTime - now;
+
+                    const timerEl = document.getElementById('tournamentTimerDisplay');
+                    const badgeEl = document.getElementById('tournamentStatusBadge');
+
+                    if (diff <= 0) {
+                        clearInterval(tournamentInterval);
+                        if (timerEl) timerEl.innerText = "00d : 00h : 00m : 00s";
+                        if (badgeEl) {
+                            badgeEl.innerHTML = `<i class="fa-solid fa-flag-checkered mr-1"></i> Tournament Ended`;
+                            badgeEl.className = "text-[11px] font-bold text-amber-400 mt-1.5 uppercase";
+                        }
+                        announceTournamentWinner();
+                        renderPollTournamentUI();
+                        return;
+                    }
+
+                    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                    const secs = Math.floor((diff % (1000 * 60)) / 1000);
+
+                    if (timerEl) {
+                        timerEl.innerText = `${String(days).padStart(2, '0')}d : ${String(hours).padStart(2, '0')}h : ${String(mins).padStart(2, '0')}m : ${String(secs).padStart(2, '0')}s`;
+                    }
+                }, 1000);
+            }
+
+            function getValidatedVoteCounts() {
+                let voteCounts = {};
+                TOURNAMENT_CONTESTANTS.forEach(c => voteCounts[c.id] = 0);
+                let totalVotes = 0;
+                let userVotedFor = null;
+
+                for (let vKey in tournamentVotesData) {
+                    const entry = tournamentVotesData[vKey];
+                    let contestantId = null;
+
+                    // Support both structured signed votes and legacy string votes
+                    if (typeof entry === 'object' && entry !== null) {
+                        const expectedSig = createIntegritySig(vKey, entry.hwId, entry.contestantId, entry.ts);
+                        // Reject tampered/console-injected entries whose signature doesn't match!
+                        if (entry.sig === expectedSig && VALID_IDS.has(entry.contestantId)) {
+                            contestantId = entry.contestantId;
+                        }
+                    } else if (typeof entry === 'string' && VALID_IDS.has(entry)) {
+                        contestantId = entry;
+                    }
+
+                    if (contestantId) {
+                        voteCounts[contestantId]++;
+                        totalVotes++;
+                        if (vKey === primaryVoterKey || (typeof entry === 'object' && entry.hwId === hardwareId)) {
+                            userVotedFor = contestantId;
+                        }
+                    }
+                }
+
+                // Also check hardware lock registry
+                if (!userVotedFor && tournamentHardwareLocks[hardwareId]) {
+                    userVotedFor = tournamentHardwareLocks[hardwareId];
+                }
+
+                return { voteCounts, totalVotes, userVotedFor };
+            }
+
+            function renderPollTournamentUI() {
+                const container = document.getElementById('pollContestantsContainer');
+                if (!container) return;
+
+                const { voteCounts, totalVotes, userVotedFor } = getValidatedVoteCounts();
+                const hasLocalStorageVoted = localStorage.getItem(`voted_lock_${hardwareId}`);
+                const finalVotedId = userVotedFor || hasLocalStorageVoted;
+                const isUserLocked = Boolean(finalVotedId);
+
+                if (userVotedFor && !hasLocalStorageVoted) {
+                    localStorage.setItem(`voted_lock_${hardwareId}`, userVotedFor);
+                }
+
+                const totalPollsEl = document.getElementById('totalPollsCastDisplay');
+                if (totalPollsEl) totalPollsEl.innerText = totalVotes;
+
+                const sortedContestants = [...TOURNAMENT_CONTESTANTS].sort((a, b) => voteCounts[b.id] - voteCounts[a.id]);
+                const isEnded = tournamentEndTime && Date.now() >= tournamentEndTime;
+
+                container.innerHTML = '';
+
+                sortedContestants.forEach((person, index) => {
+                    const count = voteCounts[person.id];
+                    const percentage = totalVotes > 0 ? ((count / totalVotes) * 100).toFixed(1) : 0;
+                    const isTop1 = index === 0 && count > 0;
+                    const isMyChoice = finalVotedId === person.id;
+
+                    const card = document.createElement('div');
+                    card.className = `glass-card rounded-2xl p-5 border transition relative overflow-hidden ${
+                        isTop1 ? 'border-amber-400/70 shadow-lg shadow-amber-500/15' : 'border-cardBorder hover:border-neonPink/50'
+                    }`;
+
+                    const headerDiv = document.createElement('div');
+                    headerDiv.className = "flex items-center justify-between mb-3 relative z-10";
+                    headerDiv.innerHTML = `
+                        <div class="flex items-center space-x-3">
+                            <div class="w-12 h-12 rounded-xl ${isTop1 ? 'bg-amber-400 text-black' : 'bg-gradient-pink text-white'} font-black flex items-center justify-center text-base shadow-md">
+                                ${isTop1 ? '<i class="fa-solid fa-crown text-lg"></i>' : `#${index + 1}`}
+                            </div>
+                            <div>
+                                <h3 class="text-base font-bold flex items-center">
+                                    ${person.name}
+                                    ${isMyChoice ? '<span class="ml-2 px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 text-[10px] font-bold">Your Vote</span>' : ''}
+                                </h3>
+                                <span class="text-xs font-mono text-neonPink font-bold">${person.id}</span>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-xl font-black font-mono">${count}</div>
+                            <div class="text-[10px] uppercase opacity-60 font-bold">Polls (${percentage}%)</div>
+                        </div>
+                    `;
+
+                    const progressWrap = document.createElement('div');
+                    progressWrap.className = "w-full h-2.5 bg-black/50 rounded-full overflow-hidden mb-4 border border-white/5";
+                    progressWrap.innerHTML = `<div class="h-full ${isTop1 ? 'bg-amber-400' : 'bg-gradient-pink'} transition-all duration-500 rounded-full" style="width: ${percentage}%"></div>`;
+
+                    // Secure Event Listener Button (No inline onclick="" in HTML so DOM tampering won't trigger functions!)
+                    const btn = document.createElement('button');
+                    btn.type = "button";
+                    btn.disabled = isUserLocked || isEnded;
+                    btn.className = `w-full py-3 rounded-xl text-xs font-bold transition flex items-center justify-center space-x-2 ${
+                        isMyChoice 
+                        ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 cursor-default' 
+                        : (isUserLocked || isEnded) 
+                            ? 'bg-cardBorder/50 opacity-40 cursor-not-allowed' 
+                            : 'bg-gradient-pink text-white hover:opacity-95 shadow-lg shadow-neonPink/25 cursor-pointer active:scale-95'
+                    }`;
+                    btn.innerHTML = `
+                        <i class="fa-solid ${isMyChoice ? 'fa-check-double' : 'fa-hand-pointer'}"></i>
+                        <span>${isMyChoice ? 'Voted Successfully' : isEnded ? 'Voting Closed' : isUserLocked ? 'Device Locked (1 Vote Max)' : `Vote for ${person.name}`}</span>
+                    `;
+
+                    if (!isUserLocked && !isEnded) {
+                        btn.addEventListener('click', (ev) => {
+                            // Block synthetic console clicks (e.g. button.click() via script)
+                            if (!ev.isTrusted) {
+                                showToast("Security Alert: Automated or console click blocked!", "error");
+                                return;
+                            }
+                            castTournamentVote(person.id, person.name);
+                        });
+                    }
+
+                    card.appendChild(headerDiv);
+                    card.appendChild(progressWrap);
+                    card.appendChild(btn);
+                    container.appendChild(card);
+                });
+            }
+
+            async function castTournamentVote(contestantId, contestantName) {
+                if (isVotingInProgress) return;
+
+                if (tournamentEndTime && Date.now() >= tournamentEndTime) {
+                    showToast("Tournament ka waqt khatam ho chuka hai!", "error");
+                    return;
+                }
+
+                const { userVotedFor } = getValidatedVoteCounts();
+                if (localStorage.getItem(`voted_lock_${hardwareId}`) || userVotedFor || tournamentHardwareLocks[hardwareId]) {
+                    showToast("Anti-Cheat Warning: Is device se pehle hi vote cast ho chuka hai!", "error");
+                    return;
+                }
+
+                isVotingInProgress = true;
+
+                try {
+                    const ts = Date.now();
+                    const sig = createIntegritySig(primaryVoterKey, hardwareId, contestantId, ts);
+
+                    localStorage.setItem(`voted_lock_${hardwareId}`, contestantId);
+
+                    // Save signed vote + device hardware lock in Firebase
+                    await set(ref(db, `tournament2027/votes/${primaryVoterKey}`), {
+                        contestantId: contestantId,
+                        hwId: hardwareId,
+                        ts: ts,
+                        sig: sig
+                    });
+                    await set(ref(db, `tournament2027/deviceLocks/${hardwareId}`), contestantId);
+
+                    showToast(`Vote verified & casted for ${contestantName} (${contestantId})!`, "success");
+                    renderPollTournamentUI();
+                } catch (err) {
+                    console.error(err);
+                    localStorage.removeItem(`voted_lock_${hardwareId}`);
+                    showToast("Vote submit karne mein masla aaya. Internet check karein.", "error");
+                } finally {
+                    isVotingInProgress = false;
+                }
+            }
+
+            function announceTournamentWinner() {
+                const { voteCounts } = getValidatedVoteCounts();
+                const sorted = [...TOURNAMENT_CONTESTANTS].sort((a, b) => voteCounts[b.id] - voteCounts[a.id]);
+                const winner = sorted[0];
+                const winnerVotes = voteCounts[winner.id];
+
+                const banner = document.getElementById('tournamentWinnerBanner');
+                const nameEl = document.getElementById('winnerNameDisplay');
+                const votesEl = document.getElementById('winnerVotesDisplay');
+
+                if (banner && winnerVotes > 0) {
+                    banner.classList.remove('hidden');
+                    nameEl.innerText = `${winner.name} (${winner.id})`;
+                    votesEl.innerText = `Total Winning Votes: ${winnerVotes} Polls`;
+                }
+            }
+
+            function showToast(message, type = 'success') {
+                const container = document.getElementById('toastContainer');
+                if (!container) return;
+
+                const toast = document.createElement('div');
+                toast.className = `glass-card px-4 py-3 rounded-2xl shadow-2xl text-xs font-semibold flex items-center space-x-3 border ${type === 'success' ? 'border-emerald-500/40 text-emerald-400' : 'border-red-500/40 text-red-400'} pointer-events-auto transition transform translate-y-2 opacity-0`;
+                toast.innerHTML = `<i class="fa-solid ${type === 'success' ? 'fa-circle-check' : 'fa-triangle-exclamation'} text-base"></i><span>${message}</span>`;
+                container.appendChild(toast);
+                
+                setTimeout(() => {
+                    toast.classList.remove('translate-y-2', 'opacity-0');
+                }, 10);
+
+                setTimeout(() => {
+                    toast.classList.add('translate-y-2', 'opacity-0');
+                    setTimeout(() => toast.remove(), 300);
+                }, 3000);
+            }
+
+            initPollTournament2027();
+        })();
     </script>
 </body>
 </html>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ProJoin 2027 - Official Poll Tournament</title>
+    <title>ProJoin 2027 - Winter Edition Poll Tournament</title>
     
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -13,11 +13,11 @@
             theme: {
                 extend: {
                     colors: {
-                        darkBg: '#0a0a0c',
-                        cardBg: '#121218',
-                        cardBorder: '#272735',
-                        neonPink: '#ff2a85',
-                        neonPurple: '#b829ff'
+                        darkBg: '#070d1b',
+                        cardBg: '#0f172a',
+                        cardBorder: '#1e293b',
+                        iceBlue: '#38bdf8',
+                        frostCyan: '#06b6d4'
                     }
                 }
             }
@@ -33,83 +33,103 @@
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #0a0a0c;
-            color: #f3f4f6;
+            background-color: #070d1b;
+            color: #f1f5f9;
             -webkit-user-select: none;
             user-select: none;
+            overflow-x: hidden;
         }
         ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #0a0a0c; }
-        ::-webkit-scrollbar-thumb { background: #ff2a85; border-radius: 4px; }
-        .neon-glow { box-shadow: 0 0 25px rgba(255, 42, 133, 0.25); }
+        ::-webkit-scrollbar-track { background: #070d1b; }
+        ::-webkit-scrollbar-thumb { background: #38bdf8; border-radius: 4px; }
+        .neon-glow { box-shadow: 0 0 25px rgba(56, 189, 248, 0.25); }
         .text-gradient {
-            background: linear-gradient(135deg, #ff2a85 0%, #b829ff 100%);
+            background: linear-gradient(135deg, #38bdf8 0%, #a5f3fc 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-        .bg-gradient-pink {
-            background: linear-gradient(135deg, #ff2a85 0%, #b829ff 100%);
+        .bg-gradient-ice {
+            background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%);
         }
         .glass-card {
-            background: rgba(18, 18, 24, 0.85);
+            background: rgba(15, 23, 42, 0.85);
             backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 42, 133, 0.2);
+            border: 1px solid rgba(56, 189, 248, 0.2);
+        }
+        /* Falling Snow Animation - Fixed to Front (z-50) */
+        .snowflake {
+            position: fixed;
+            top: -10px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 50;
+            animation: fall linear infinite;
+            box-shadow: 0 0 6px rgba(255, 255, 255, 0.8);
+        }
+        @keyframes fall {
+            0% { transform: translateY(-10px) translateX(0); opacity: 0.9; }
+            50% { transform: translateY(50vh) translateX(15px); opacity: 0.6; }
+            100% { transform: translateY(105vh) translateX(-15px); opacity: 0; }
         }
     </style>
 </head>
-<body class="min-h-screen flex flex-col selection:bg-neonPink selection:text-white" oncontextmenu="return false;">
+<body class="min-h-screen flex flex-col selection:bg-iceBlue selection:text-black relative" oncontextmenu="return false;">
+
+    <!-- Background Snow Effect Container - Front Layer (z-50) -->
+    <div id="snowContainer" class="fixed inset-0 pointer-events-none z-50 overflow-hidden"></div>
 
     <!-- Top Navbar -->
     <header class="glass-card sticky top-0 z-30 border-b border-cardBorder px-4 lg:px-8 py-4 flex items-center justify-between">
-        <div class="flex items-center space-x-3">
-            <div class="w-10 h-10 rounded-xl bg-gradient-pink flex items-center justify-center text-white font-black text-lg shadow-lg shadow-neonPink/40">
-                <i class="fa-solid fa-bolt"></i>
+        <div class="flex items-center space-x-3 relative z-10">
+            <div class="w-10 h-10 rounded-xl bg-gradient-ice flex items-center justify-center text-slate-950 font-black text-lg shadow-lg shadow-iceBlue/40">
+                <i class="fa-solid fa-snowflake"></i>
             </div>
             <div>
                 <span class="text-xl font-black tracking-tight">PRO<span class="text-gradient">JOIN</span> 2027</span>
                 <div class="flex items-center space-x-2">
-                    <span class="inline-block w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                    <span class="text-[11px] opacity-70">Anti-Hack & Anti-Console Shield Active</span>
+                    <span class="inline-block w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
+                    <span class="text-[11px] opacity-70">Winter Edition Live Poll</span>
                 </div>
             </div>
         </div>
 
-        <div class="flex items-center space-x-3">
-            <div id="userBadgeDisplay" class="px-3.5 py-2 rounded-xl bg-cardBg border border-neonPink/30 text-xs font-mono font-bold text-neonPink">
+        <div class="flex items-center space-x-3 relative z-10">
+            <div id="userBadgeDisplay" class="px-3.5 py-2 rounded-xl bg-cardBg border border-iceBlue/30 text-xs font-mono font-bold text-iceBlue">
                 Hardware Verified
             </div>
         </div>
     </header>
 
     <!-- Main Container -->
-    <main class="flex-1 max-w-5xl w-full mx-auto p-4 lg:p-8 space-y-6">
+    <main class="flex-1 max-w-5xl w-full mx-auto p-4 lg:p-8 space-y-6 relative z-10">
 
         <!-- Hero Banner & 5-Day Live Countdown -->
-        <div class="glass-card rounded-3xl p-6 lg:p-8 border-2 border-neonPink/40 neon-glow relative overflow-hidden bg-gradient-to-r from-cardBg via-[#181524] to-cardBg">
-            <div class="absolute right-0 top-0 w-96 h-96 bg-gradient-pink opacity-15 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="glass-card rounded-3xl p-6 lg:p-8 border-2 border-iceBlue/40 neon-glow relative overflow-hidden bg-gradient-to-r from-cardBg via-[#0d1b2a] to-cardBg">
+            <div class="absolute right-0 top-0 w-96 h-96 bg-gradient-ice opacity-15 rounded-full blur-3xl pointer-events-none"></div>
             <div class="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
                 <div class="space-y-2">
-                    <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-amber-500/15 border border-amber-500/40 text-amber-400 text-xs font-extrabold uppercase tracking-wider">
-                        <i class="fa-solid fa-shield-halved animate-bounce"></i>
-                        <span>Tamper-Proof 5-Day Mega Event</span>
+                    <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-cyan-500/15 border border-cyan-500/40 text-cyan-300 text-xs font-extrabold uppercase tracking-wider">
+                        <i class="fa-solid fa-icicles animate-bounce"></i>
+                        <span>Tamper-Proof Winter Mega Event</span>
                     </div>
-                    <h1 class="text-2xl sm:text-4xl font-black text-gradient tracking-tight">ProJoin Poll Tournament 2027</h1>
-                    <p class="text-xs sm:text-sm opacity-80 max-w-lg leading-relaxed">
+                    <h1 class="text-2xl sm:text-4xl font-black text-gradient tracking-tight">ProJoin Winter Poll Tournament 2027</h1>
+                    <p class="text-xs sm:text-sm opacity-85 max-w-lg leading-relaxed">
                         Har device aur user sirf <strong>1 vote</strong> cast kar sakta hai. Console commands aur HTML inspect hacks block hain.
                     </p>
-                    <div class="pt-1 flex items-center space-x-4 text-xs font-mono text-gray-400">
-                        <span><i class="fa-solid fa-users text-neonPink mr-1"></i> Contestants: <strong class="text-white">8</strong></span>
-                        <span><i class="fa-solid fa-check-to-slot text-emerald-400 mr-1"></i> Valid Polls: <strong id="totalPollsCastDisplay" class="text-white">0</strong></span>
+                    <div class="pt-1 flex items-center space-x-4 text-xs font-mono text-slate-300">
+                        <span><i class="fa-solid fa-users text-iceBlue mr-1"></i> Contestants: <strong class="text-white">8</strong></span>
+                        <span><i class="fa-solid fa-check-to-slot text-cyan-400 mr-1"></i> Valid Polls: <strong id="totalPollsCastDisplay" class="text-white">0</strong></span>
                     </div>
                 </div>
 
                 <!-- 5-Day Live Countdown Box -->
-                <div class="w-full md:w-auto bg-black/60 border-2 border-neonPink/50 rounded-2xl p-5 text-center min-w-[260px] shadow-2xl backdrop-blur-xl">
-                    <div class="text-[10px] uppercase font-bold text-gray-400 tracking-widest mb-1">Time Remaining</div>
-                    <div id="tournamentTimerDisplay" class="text-xl sm:text-2xl font-mono font-black text-neonPink tracking-wider">
+                <div class="w-full md:w-auto bg-slate-950/80 border-2 border-iceBlue/50 rounded-2xl p-5 text-center min-w-[260px] shadow-2xl backdrop-blur-xl">
+                    <div class="text-[10px] uppercase font-bold text-slate-400 tracking-widest mb-1">Time Remaining</div>
+                    <div id="tournamentTimerDisplay" class="text-xl sm:text-2xl font-mono font-black text-iceBlue tracking-wider">
                         05d : 00h : 00m : 00s
                     </div>
-                    <div id="tournamentStatusBadge" class="text-[11px] font-bold text-emerald-400 mt-1.5 uppercase">
+                    <div id="tournamentStatusBadge" class="text-[11px] font-bold text-cyan-400 mt-1.5 uppercase">
                         <i class="fa-solid fa-circle text-[8px] animate-ping mr-1"></i> Voting Live & Secured
                     </div>
                 </div>
@@ -117,13 +137,13 @@
         </div>
 
         <!-- Winner Announcement Banner -->
-        <div id="tournamentWinnerBanner" class="hidden glass-card rounded-3xl p-6 border-2 border-amber-400 bg-gradient-to-r from-amber-500/20 via-neonPink/20 to-amber-500/20 text-center space-y-2 neon-glow">
-            <div class="w-16 h-16 rounded-full bg-amber-400 text-black text-3xl flex items-center justify-center mx-auto shadow-lg shadow-amber-400/50">
-                <i class="fa-solid fa-crown"></i>
+        <div id="tournamentWinnerBanner" class="hidden glass-card rounded-3xl p-6 border-2 border-cyan-300 bg-gradient-to-r from-cyan-500/20 via-iceBlue/20 to-cyan-500/20 text-center space-y-2 neon-glow">
+            <div class="w-16 h-16 rounded-full bg-cyan-300 text-slate-950 text-3xl flex items-center justify-center mx-auto shadow-lg shadow-cyan-300/50">
+                <i class="fa-solid fa-snowflake"></i>
             </div>
-            <div class="text-xs font-extrabold uppercase tracking-widest text-amber-400">Tournament Ended - Grand Champion</div>
+            <div class="text-xs font-extrabold uppercase tracking-widest text-cyan-300">Tournament Ended - Winter Champion</div>
             <h2 id="winnerNameDisplay" class="text-2xl sm:text-3xl font-black text-white">--</h2>
-            <p id="winnerVotesDisplay" class="text-sm font-mono text-neonPink font-bold">Total Votes: 0</p>
+            <p id="winnerVotesDisplay" class="text-sm font-mono text-iceBlue font-bold">Total Votes: 0</p>
         </div>
 
         <!-- Contestants Poll Grid -->
@@ -139,7 +159,6 @@
     <!-- Anti-Inspect & Shortcut Blocker -->
     <script>
         document.addEventListener('keydown', function(e) {
-            // Block F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+Shift+C, Ctrl+U
             if (
                 e.key === 'F12' || 
                 (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'i' || e.key === 'J' || e.key === 'j' || e.key === 'C' || e.key === 'c')) ||
@@ -149,6 +168,23 @@
                 return false;
             }
         });
+
+        // Generate Falling Snowflakes in Foreground
+        window.addEventListener('DOMContentLoaded', () => {
+            const snowContainer = document.getElementById('snowContainer');
+            const snowflakeCount = 45;
+            for (let i = 0; i < snowflakeCount; i++) {
+                const flake = document.createElement('div');
+                flake.className = 'snowflake';
+                const size = Math.random() * 6 + 2 + 'px';
+                flake.style.width = size;
+                flake.style.height = size;
+                flake.style.left = Math.random() * 100 + 'vw';
+                flake.style.animationDuration = Math.random() * 7 + 4 + 's';
+                flake.style.animationDelay = Math.random() * 5 + 's';
+                snowContainer.appendChild(flake);
+            }
+        });
     </script>
 
     <!-- Firebase SDK & Tamper-Proof Private Closure Logic -->
@@ -156,7 +192,6 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
         import { getDatabase, ref, set, get, child, onValue } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-database.js";
 
-        // Encapsulated inside private module scope so window.db, window.firebaseRefs, or functions are NOT accessible from Console!
         (function() {
             const firebaseConfig = {
                 apiKey: "AIzaSyBAjO52-ZVb6jKurqJREtMo7PrRdmRf6is",
@@ -172,7 +207,6 @@
             const app = initializeApp(firebaseConfig);
             const db = getDatabase(app);
 
-            // Deterministic Hardware + Browser Fingerprint (Survives localStorage / cache clearing!)
             function generateHardwareFingerprint() {
                 try {
                     const canvas = document.createElement('canvas');
@@ -182,7 +216,7 @@
                     ctx.fillStyle = "#f60";
                     ctx.fillRect(125, 1, 62, 20);
                     ctx.fillStyle = "#069";
-                    ctx.fillText("ProJoin2027_Shield", 2, 15);
+                    ctx.fillText("ProJoin2027_WinterShield", 2, 15);
                     const canvasData = canvas.toDataURL();
 
                     const rawTraits = [
@@ -195,7 +229,6 @@
                         canvasData
                     ].join('|||');
 
-                    // Simple fast 32-bit FNV-1a hash
                     let hash = 2166136261;
                     for (let i = 0; i < rawTraits.length; i++) {
                         hash ^= rawTraits.charCodeAt(i);
@@ -209,7 +242,6 @@
 
             const hardwareId = generateHardwareFingerprint();
             const loggedInUid = localStorage.getItem('projoin_user_id');
-            // Primary voter key uses logged-in UID if available, otherwise immutable hardware ID
             const primaryVoterKey = loggedInUid ? `uid_${loggedInUid}` : hardwareId;
 
             const badgeEl = document.getElementById('userBadgeDisplay');
@@ -217,7 +249,6 @@
                 badgeEl.innerText = `Device Lock: ${hardwareId.substring(0, 9)}`;
             }
 
-            // Frozen Contestants List (Cannot be modified via console)
             const TOURNAMENT_CONTESTANTS = Object.freeze([
                 Object.freeze({ id: "PJ-2412", name: "Shifa Ali" }),
                 Object.freeze({ id: "PJ-7369", name: "Alisha" }),
@@ -237,7 +268,6 @@
             let tournamentInterval = null;
             let isVotingInProgress = false;
 
-            // Secret anti-tamper signature generator
             function createIntegritySig(voterKey, hwId, contestantId, ts) {
                 const secretSalt = "PJ2027_ANTI_CONSOLE_SALT_9981";
                 const str = `${voterKey}:${hwId}:${contestantId}:${ts}:${secretSalt}`;
@@ -265,13 +295,11 @@
                     startTournamentCountdown();
                 });
 
-                // Real-time Votes Listener with Integrity Verification
                 onValue(ref(db, 'tournament2027/votes'), (snapshot) => {
                     tournamentVotesData = snapshot.exists() ? snapshot.val() : {};
                     renderPollTournamentUI();
                 });
 
-                // Real-time Hardware Locks Listener (Prevents multi-account voting from same device)
                 onValue(ref(db, 'tournament2027/deviceLocks'), (snapshot) => {
                     tournamentHardwareLocks = snapshot.exists() ? snapshot.val() : {};
                     renderPollTournamentUI();
@@ -294,7 +322,7 @@
                         if (timerEl) timerEl.innerText = "00d : 00h : 00m : 00s";
                         if (badgeEl) {
                             badgeEl.innerHTML = `<i class="fa-solid fa-flag-checkered mr-1"></i> Tournament Ended`;
-                            badgeEl.className = "text-[11px] font-bold text-amber-400 mt-1.5 uppercase";
+                            badgeEl.className = "text-[11px] font-bold text-cyan-400 mt-1.5 uppercase";
                         }
                         announceTournamentWinner();
                         renderPollTournamentUI();
@@ -322,10 +350,8 @@
                     const entry = tournamentVotesData[vKey];
                     let contestantId = null;
 
-                    // Support both structured signed votes and legacy string votes
                     if (typeof entry === 'object' && entry !== null) {
                         const expectedSig = createIntegritySig(vKey, entry.hwId, entry.contestantId, entry.ts);
-                        // Reject tampered/console-injected entries whose signature doesn't match!
                         if (entry.sig === expectedSig && VALID_IDS.has(entry.contestantId)) {
                             contestantId = entry.contestantId;
                         }
@@ -342,7 +368,6 @@
                     }
                 }
 
-                // Also check hardware lock registry
                 if (!userVotedFor && tournamentHardwareLocks[hardwareId]) {
                     userVotedFor = tournamentHardwareLocks[hardwareId];
                 }
@@ -379,22 +404,22 @@
 
                     const card = document.createElement('div');
                     card.className = `glass-card rounded-2xl p-5 border transition relative overflow-hidden ${
-                        isTop1 ? 'border-amber-400/70 shadow-lg shadow-amber-500/15' : 'border-cardBorder hover:border-neonPink/50'
+                        isTop1 ? 'border-cyan-400/70 shadow-lg shadow-cyan-500/15' : 'border-cardBorder hover:border-iceBlue/50'
                     }`;
 
                     const headerDiv = document.createElement('div');
                     headerDiv.className = "flex items-center justify-between mb-3 relative z-10";
                     headerDiv.innerHTML = `
                         <div class="flex items-center space-x-3">
-                            <div class="w-12 h-12 rounded-xl ${isTop1 ? 'bg-amber-400 text-black' : 'bg-gradient-pink text-white'} font-black flex items-center justify-center text-base shadow-md">
-                                ${isTop1 ? '<i class="fa-solid fa-crown text-lg"></i>' : `#${index + 1}`}
+                            <div class="w-12 h-12 rounded-xl ${isTop1 ? 'bg-cyan-300 text-slate-950' : 'bg-gradient-ice text-slate-950'} font-black flex items-center justify-center text-base shadow-md">
+                                ${isTop1 ? '<i class="fa-solid fa-snowflake text-lg"></i>' : `#${index + 1}`}
                             </div>
                             <div>
                                 <h3 class="text-base font-bold flex items-center">
                                     ${person.name}
-                                    ${isMyChoice ? '<span class="ml-2 px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 text-[10px] font-bold">Your Vote</span>' : ''}
+                                    ${isMyChoice ? '<span class="ml-2 px-2 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 text-[10px] font-bold">Your Vote</span>' : ''}
                                 </h3>
-                                <span class="text-xs font-mono text-neonPink font-bold">${person.id}</span>
+                                <span class="text-xs font-mono text-iceBlue font-bold">${person.id}</span>
                             </div>
                         </div>
                         <div class="text-right">
@@ -404,19 +429,18 @@
                     `;
 
                     const progressWrap = document.createElement('div');
-                    progressWrap.className = "w-full h-2.5 bg-black/50 rounded-full overflow-hidden mb-4 border border-white/5";
-                    progressWrap.innerHTML = `<div class="h-full ${isTop1 ? 'bg-amber-400' : 'bg-gradient-pink'} transition-all duration-500 rounded-full" style="width: ${percentage}%"></div>`;
+                    progressWrap.className = "w-full h-2.5 bg-slate-950/50 rounded-full overflow-hidden mb-4 border border-white/5";
+                    progressWrap.innerHTML = `<div class="h-full ${isTop1 ? 'bg-cyan-300' : 'bg-gradient-ice'} transition-all duration-500 rounded-full" style="width: ${percentage}%"></div>`;
 
-                    // Secure Event Listener Button (No inline onclick="" in HTML so DOM tampering won't trigger functions!)
                     const btn = document.createElement('button');
                     btn.type = "button";
                     btn.disabled = isUserLocked || isEnded;
                     btn.className = `w-full py-3 rounded-xl text-xs font-bold transition flex items-center justify-center space-x-2 ${
                         isMyChoice 
-                        ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 cursor-default' 
+                        ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 cursor-default' 
                         : (isUserLocked || isEnded) 
                             ? 'bg-cardBorder/50 opacity-40 cursor-not-allowed' 
-                            : 'bg-gradient-pink text-white hover:opacity-95 shadow-lg shadow-neonPink/25 cursor-pointer active:scale-95'
+                            : 'bg-gradient-ice text-slate-950 hover:opacity-95 shadow-lg shadow-iceBlue/25 cursor-pointer active:scale-95'
                     }`;
                     btn.innerHTML = `
                         <i class="fa-solid ${isMyChoice ? 'fa-check-double' : 'fa-hand-pointer'}"></i>
@@ -425,7 +449,6 @@
 
                     if (!isUserLocked && !isEnded) {
                         btn.addEventListener('click', (ev) => {
-                            // Block synthetic console clicks (e.g. button.click() via script)
                             if (!ev.isTrusted) {
                                 showToast("Security Alert: Automated or console click blocked!", "error");
                                 return;
@@ -463,7 +486,6 @@
 
                     localStorage.setItem(`voted_lock_${hardwareId}`, contestantId);
 
-                    // Save signed vote + device hardware lock in Firebase
                     await set(ref(db, `tournament2027/votes/${primaryVoterKey}`), {
                         contestantId: contestantId,
                         hwId: hardwareId,
@@ -505,7 +527,7 @@
                 if (!container) return;
 
                 const toast = document.createElement('div');
-                toast.className = `glass-card px-4 py-3 rounded-2xl shadow-2xl text-xs font-semibold flex items-center space-x-3 border ${type === 'success' ? 'border-emerald-500/40 text-emerald-400' : 'border-red-500/40 text-red-400'} pointer-events-auto transition transform translate-y-2 opacity-0`;
+                toast.className = `glass-card px-4 py-3 rounded-2xl shadow-2xl text-xs font-semibold flex items-center space-x-3 border ${type === 'success' ? 'border-cyan-500/40 text-cyan-300' : 'border-red-500/40 text-red-400'} pointer-events-auto transition transform translate-y-2 opacity-0`;
                 toast.innerHTML = `<i class="fa-solid ${type === 'success' ? 'fa-circle-check' : 'fa-triangle-exclamation'} text-base"></i><span>${message}</span>`;
                 container.appendChild(toast);
                 

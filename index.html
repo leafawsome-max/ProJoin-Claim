@@ -115,7 +115,7 @@
                     </div>
                     <h1 class="text-2xl sm:text-4xl font-black text-gradient tracking-tight">ProJoin Winter Poll Tournament 2027</h1>
                     <p class="text-xs sm:text-sm opacity-85 max-w-lg leading-relaxed">
-                        Har device aur user sirf <strong>1 vote</strong> cast kar sakta hai.
+                        Har device aur user sirf <strong>1 vote</strong> cast kar sakta hai. Console commands aur HTML inspect hacks block hain.
                     </p>
                     <div class="pt-1 flex items-center space-x-4 text-xs font-mono text-slate-300">
                         <span><i class="fa-solid fa-users text-iceBlue mr-1"></i> Contestants: <strong class="text-white">8</strong></span>
@@ -250,15 +250,16 @@
             }
 
             const TOURNAMENT_CONTESTANTS = Object.freeze([
-                Object.freeze({ id: "PJ-2412", name: "Shifa Ali" }),
-                Object.freeze({ id: "PJ-7369", name: "Alisha" }),
-                Object.freeze({ id: "PJ-2440", name: "Misbah" }),
-                Object.freeze({ id: "PJ-3576", name: "Bilawal" }),
-                Object.freeze({ id: "PJ-7257", name: "Bushra" }),
-                Object.freeze({ id: "PJ-8082", name: "Maryam" }),
-                Object.freeze({ id: "PJ-9294", name: "Arzu" }),
-                Object.freeze({ id: "PJ-5526", name: "Zainab" })
-            ]);
+    Object.freeze({ id: "PJ-2412", name: "Shifa Ali" }),
+    Object.freeze({ id: "PJ-7369", name: "Alisha" }),
+    Object.freeze({ id: "PJ-2440", name: "Misbah" }),
+    Object.freeze({ id: "PJ-3576", name: "Bilawal" }),
+    Object.freeze({ id: "PJ-7257", name: "Bushra" }),
+    Object.freeze({ id: "PJ-8082", name: "Maryam" }),
+    Object.freeze({ id: "PJ-9294", name: "Arzu" }),
+    Object.freeze({ id: "PJ-5526", name: "Zainab" }),
+    Object.freeze({ id: "PJ-2939", name: "Maria" }) // <--- Yeh line aapne add ki
+]);
             const VALID_IDS = new Set(TOURNAMENT_CONTESTANTS.map(c => c.id));
 
             const FIVE_DAYS_MS = 5 * 24 * 60 * 60 * 1000;
